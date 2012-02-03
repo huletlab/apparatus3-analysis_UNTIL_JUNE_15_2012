@@ -38,6 +38,34 @@ gaus2d_simplex_f (const gsl_vector * v, void *params)
   return sumsq;
 }
 
+double
+gaus2d_no_offset_simplex_f (const gsl_vector * v, void *params)
+{
+  unsigned int s1 = ((gsl_matrix *) params)->size1;
+  unsigned int s2 = ((gsl_matrix *) params)->size2;
+
+  double cx = gsl_vector_get (v, 0);
+  double wx = gsl_vector_get (v, 1);
+  double cy = gsl_vector_get (v, 2);
+  double wy = gsl_vector_get (v, 3);
+  double A = gsl_vector_get (v, 4);
+
+  double sumsq = 0.;
+
+  for (unsigned int i = 0; i < s1; i++)
+    {
+      for (unsigned int j = 0; j < s2; j++)
+	{
+	  double model =
+	    A * exp (-1.* (pow ((i - cx) / wx, 2.) + pow ((j - cy) / wy, 2.)));
+	  double dat = gsl_matrix_get ((gsl_matrix *) params, i, j);
+	  sumsq += pow (model - dat, 2);
+	}
+    }
+
+  return sumsq;
+}
+
 
 
 int
@@ -55,6 +83,7 @@ gaus2d_f (const gsl_vector * x, void *data, gsl_vector * f)
 
   size_t ii = 0;
 
+  #pragma omp parallel for
   for (unsigned int i = 0; i < s1; i++)
     {
       for (unsigned int j = 0; j < s2; j++)

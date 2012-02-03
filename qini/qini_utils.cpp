@@ -23,7 +23,8 @@ getINI_num (string & inifile, char *SECTION, char *KEY)
   else
     {
       cout << "#" << SECTION << ":" << KEY << " does not exist!" << endl;
-      exit (EXIT_FAILURE);
+      return INI_ERROR;
+      //exit (EXIT_FAILURE);
     }
 
   double val = strtod (value.c_str (), NULL);

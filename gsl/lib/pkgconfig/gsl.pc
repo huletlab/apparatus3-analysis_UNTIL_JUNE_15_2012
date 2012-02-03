@@ -1,0 +1,10 @@
+prefix=/lab/software/apparatus3/cpp/gsl
+exec_prefix=/lab/software/apparatus3/cpp/gsl
+libdir=/lab/software/apparatus3/cpp/gsl/lib
+includedir=/lab/software/apparatus3/cpp/gsl/include
+
+Name: GSL
+Description: GNU Scientific Library
+Version: 1.13
+Libs: -L/lab/software/apparatus3/cpp/gsl/lib -lgsl -lgslcblas -lm 
+Cflags: -I/lab/software/apparatus3/cpp/gsl/include

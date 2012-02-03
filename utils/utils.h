@@ -11,6 +11,7 @@
 
 #include <CCfits/CCfits>
 #include <gsl/gsl_matrix.h>
+#include <gsl/gsl_sort_vector.h>
 #include "/lab/software/apparatus3/cpp/utils/tiffio.h"
 
 #define ROW 779
@@ -30,6 +31,8 @@ gsl_matrix * ReadFitsImg_gsl_matrix (string & datafile);
 
 bool save_gsl_matrix_ASCII(gsl_matrix *m, string & file);
 void toTiffImage (gsl_matrix * m, string & filename);
+
+void to_dat_file( gsl_vector *vecs[], unsigned int N, string shot, string datfile ); 
 
 
 void getmaxRowCol(gsl_matrix *m, gsl_vector * max_row, gsl_vector * max_col); 

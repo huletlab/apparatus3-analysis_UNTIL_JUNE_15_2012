@@ -27,7 +27,7 @@ struct params
 
   bool verbose, center, crop, plots, reanalyze, roi_user, roisize_user;
 
-  double lambda, hc, isat, gamma, tau, quantumeff, solidangle, magnif, texp, det;
+  double lambda, hc, isat, gamma, tau, quantumeff, solidangle, magnif, texp, det, detcalib;
 
 };
 
@@ -57,7 +57,7 @@ public:
   void Fit2DGauss ();
   void ComputeRadialAxialDensity ();
 
-  double number, number_fit, maxOD, nsp, gaus2dfit[6];
+  double number, number_fit, maxOD, nsp, gaus2dfit[6], gaus2dfit_err[6];
   double abs_ci, abs_cj;	// centers of cloud in the uncropped pict
 
   struct params *p;
@@ -86,7 +86,7 @@ Basler::LoadFLUOR ()
   if (p->roisize_user)
     {
 
-      if (p->roisize[0] > atoms->size2 || p->roisize[1] > atoms->size1)
+      if (p->roisize[0] > atoms->size1 || p->roisize[1] > atoms->size2)
 	{
 	  cout << "\tERROR:  Size of ROI is larger than image" << endl;
 	  exit (2);
@@ -105,49 +105,49 @@ Basler::LoadFLUOR ()
       if (VERBOSE)
 	{
 	  cout << "\tROI Size = " << p->roi[2] << ", " << p->roi[3] << endl;
-	  cout << "\tcj=" << cj << ",  ci=" << ci << endl;
-	  cout << "\tSTART BOX = [ " << (int) cj -
-	    (int) p->roisize[0] / 2 << " : " << (int) cj +
-	    (int) p->roisize[0] / 2 << " , " << (int) ci -
-	    (int) p->roisize[1] / 2 << " : " << (int) ci +
+	  cout << "\tci=" << ci << ",  cj=" << cj << endl;
+	  cout << "\tSTART BOX = [ " << (int) ci -
+	    (int) p->roisize[0] / 2 << " : " << (int) ci +
+	    (int) p->roisize[0] / 2 << " , " << (int) cj -
+	    (int) p->roisize[1] / 2 << " : " << (int) cj +
 	    (int) p->roisize[1] / 2 << " ]" << endl;
 	}
 
-      while ((int) cj - (int) p->roi[2] / 2 > 0
-	     && (int) cj + (int) p->roi[2] / 2 > (int) atoms->size2)
-	{
-	  cj--;
-	}
-
-      while ((int) ci - (int) p->roi[3] / 2 > 0
-	     && (int) ci + (int) p->roi[3] / 2 > (int) atoms->size1)
+      while ((int) ci - (int) p->roi[2] / 2 > 0
+	     && (int) ci + (int) p->roi[2] / 2 > (int) atoms->size1)
 	{
 	  ci--;
 	}
 
-      while ((int) cj - (int) p->roi[2] / 2 < 0
-	     && (int) cj + (int) p->roi[2] / 2 < (int) atoms->size2)
+      while ((int) cj - (int) p->roi[3] / 2 > 0
+	     && (int) cj + (int) p->roi[3] / 2 > (int) atoms->size2)
 	{
-	  cj++;
+	  cj--;
 	}
 
-      while ((int) ci - (int) p->roi[3] / 2 < 0
-	     && (int) ci + (int) p->roi[3] / 2 < (int) atoms->size1)
+      while ((int) ci - (int) p->roi[2] / 2 < 0
+	     && (int) ci + (int) p->roi[2] / 2 < (int) atoms->size1)
 	{
 	  ci++;
 	}
 
+      while ((int) cj - (int) p->roi[3] / 2 < 0
+	     && (int) cj + (int) p->roi[3] / 2 < (int) atoms->size2)
+	{
+	  cj++;
+	}
+
       if (VERBOSE || true)
 	{
-	  cout << "\tFINAL BOX = [ " << (int) cj -
-	    (int) p->roisize[0] / 2 << " : " << (int) cj +
-	    (int) p->roisize[0] / 2 << " , " << (int) ci -
-	    (int) p->roisize[1] / 2 << " : " << (int) ci +
+	  cout << "\tFINAL BOX = [ " << (int) ci -
+	    (int) p->roisize[0] / 2 << " : " << (int) ci +
+	    (int) p->roisize[0] / 2 << " , " << (int) cj -
+	    (int) p->roisize[1] / 2 << " : " << (int) cj +
 	    (int) p->roisize[1] / 2 << " ]" << endl;
 	}
 
-      p->roi[0] = cj - p->roisize[0] / 2;
-      p->roi[1] = ci - p->roisize[1] / 2;
+      p->roi[0] = ci - p->roisize[0] / 2;
+      p->roi[1] = cj - p->roisize[1] / 2;
 
       p->roi_user = true;
       if (VERBOSE)
@@ -192,12 +192,9 @@ Basler::ComputeColumnDensity ()
 
   columndensity = gsl_matrix_alloc (s1, s2);
   
-  double pee; 
-  if ( p->det == 0 ) pee = 0.5; 
-  else if  ( p-> det == -30) pee = 0.5;  // calibration for imaging off resonance 
-  
+  double pee=0.5; 
 
-  double c2a =  (p->tau/ p->texp)*(p->quantumeff/p->solidangle) / pee; 
+  double c2a =  p->detcalib*(p->tau/ p->texp)*(p->quantumeff/p->solidangle) / pee; 
   
   double at; 
 
@@ -367,10 +364,11 @@ Basler::Fit2DGauss ()
   gaus2dfit[5] = 0.1;
 
 
+
   if (VERBOSE)
     cout << endl << "------------ Fitting with 2D Gaussian ------------" <<
       endl;
-  fit2dgaus (columndensity, gaus2dfit);
+  fit2dgaus_err (columndensity, gaus2dfit, gaus2dfit_err);
   if (VERBOSE)
     cout << endl;
 

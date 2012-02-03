@@ -11,6 +11,8 @@
 #include <math.h>
 #include <string>
 
+#define INI_ERROR -1e11
+
 using namespace std;
 
 double getINI_num( string & inifile, char *SECTION, char *KEY);

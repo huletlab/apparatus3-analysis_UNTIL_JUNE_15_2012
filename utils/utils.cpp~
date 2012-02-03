@@ -140,7 +140,6 @@ ReadFluorImg_gsl_matrix (string & datafile)
   ifstream in (datafile.c_str ());
   //cout << datafile << " is good: " << in.good () << endl;
 
-  //gsl_matrix *imgdata = gsl_matrix_alloc (779, 1034);	//rows,columns
   gsl_matrix *imgdata = gsl_matrix_alloc (1034, 779);	//rows,columns
   double elem;
 
@@ -152,8 +151,7 @@ ReadFluorImg_gsl_matrix (string & datafile)
 	    errflg = true;
 	  else
 	    in >> elem;
-	  //gsl_matrix_set (imgdata, j, i, elem);
-	  gsl_matrix_set (imgdata, i, j, elem);
+	  gsl_matrix_set (imgdata, i, 779 - 1 - j, elem);
 //        cout << "i=" << i << ", j=" << j << ",  m(i,j)=" << elem << endl;
 //        cin.get ();
 	}
@@ -178,7 +176,7 @@ ReadFitsImg (string & datafile, valarray < unsigned long >&imgdata)
   return EXIT_SUCCESS;
 }
 
-//Read a .fits image from fiel and store it in a gsl_matrix
+//Read a .fits image from file and store it in a gsl_matrix
 gsl_matrix *
 ReadFitsImg_gsl_matrix (string & datafile)
 {
@@ -197,14 +195,14 @@ ReadFitsImg_gsl_matrix (string & datafile)
   //  if ( ix != dimx || iy != dimy ) return EXIT_FAILURE;
 
 
-  gsl_matrix *imgdata = gsl_matrix_alloc (iy, ix);	//rows,columns
+  gsl_matrix *imgdata = gsl_matrix_alloc (ix, iy);	//rows,columns
 
 
   for (int i = 0; i < ix; i++)
     {
       for (int j = 0; j < iy; j++)
 	{
-	  gsl_matrix_set (imgdata, j, i, contents[j * ix + i]);
+	  gsl_matrix_set (imgdata, i, j, contents[j * ix + i]);
 	}
     }
   return imgdata;
@@ -238,17 +236,17 @@ toTiffImage (gsl_matrix * m, string & filename)
   TIFF *tif = TIFFOpen (filename.c_str (), "w");
 
   unsigned int xWidth = m->size1, yWidth = m->size2;
-  TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, yWidth);
-  TIFFSetField (tif, TIFFTAG_IMAGELENGTH, xWidth);
+  TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, xWidth);
+  TIFFSetField (tif, TIFFTAG_IMAGELENGTH, yWidth);
   TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, 8);
   //TIFFSetField (tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTTOP);
   //TIFFSetField (tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
-  char *buf = new char[yWidth];
+  char *buf = new char[xWidth];
 
   double min = 1e10, max = 0.0, elem;
-  for (unsigned int i = 0; i < xWidth; i++)
+  for (unsigned int j = 0; j < yWidth; j++)
     {
-      for (unsigned int j = 0; j < yWidth; j++)
+      for (unsigned int i = 0; i < xWidth; i++)
 	{
 	  elem = gsl_matrix_get (m, i, j);
 	  if (elem < min)
@@ -258,20 +256,58 @@ toTiffImage (gsl_matrix * m, string & filename)
 	}
     }
 
-  for (unsigned int i = 0; i < xWidth; i++)
+  for (unsigned int j = 0; j < yWidth; j++)
     {
-      for (unsigned int j = 0; j < yWidth; j++)
+      for (unsigned int i = 0; i < xWidth; i++)
 	{
-	  elem = gsl_matrix_get (m, xWidth - 1 - i, j);
+	  elem = gsl_matrix_get (m, i, yWidth - 1 - j);
 
-	  buf[j] = char (256. * (1. - (elem - min) / (max - min)));
+	  buf[i] = char (256. * (1. - (elem - min) / (max - min)));
 	}
-      TIFFWriteScanline (tif, buf, i);
+      TIFFWriteScanline (tif, buf, j);
     }
 
   TIFFClose (tif);
 
 }
+
+//This function is used to created a column data file, where 
+//each column is one of the vectors given
+void
+to_dat_file (gsl_vector * vecs[], unsigned int N, string shot, string datfile)
+{
+
+  unsigned int minsize = 16000;
+  for (int i = 0; i < N; i++)
+    {
+      if (vecs[i]->size < minsize)
+	minsize = vecs[i]->size;
+    }
+
+  char path[MAXPATHLEN];
+  getcwd (path, MAXPATHLEN);
+  string fname (path);
+  fname += "/";
+  fname += shot;
+  fname += "_";
+  fname += datfile;
+
+  FILE *dat;
+  dat = fopen (fname.c_str (), "w+");
+
+  for (unsigned int index = 0; index < minsize; index++)
+    {
+      for (int i = 0; i < N; i++)
+	{
+	  fprintf (dat, "%e\t", gsl_vector_get (vecs[i], index));
+	}
+      fprintf (dat, "\n");
+    }
+  fclose (dat);
+  return;
+}
+
+
 
 
 /********** IMAGE MANIPULATION UTILITIES **********/
@@ -520,13 +556,13 @@ findFWHM (gsl_matrix * m, unsigned int *FWHM_i, unsigned int *FWHM_j)
     {
       if (VERBOSE)
 	cout << "Warning: FWHM_i overridden to be > 0" << endl;
-      *FWHM_i = 10.;
+      *FWHM_i = 10;
     }
   if (*FWHM_j == 0)
     {
       if (VERBOSE)
 	cout << "Warning: FWHM_i overridden to be > 0" << endl;
-      *FWHM_j = 10.;
+      *FWHM_j = 10;
     }
 
   if (VERBOSE)
@@ -601,18 +637,18 @@ cropImage_ROI (unsigned int roi[], gsl_matrix * raw)
     {
       cout << endl;
       cout << "Cropping image (" << raw->size1 << ", " << raw->size2 << ")";
-      cout << " ==> ( " << ax1pos << ":" << ax1pos << "+" << ax1size << ", "
-	<< ax0pos << ":" << ax0pos << "+" << ax0size << " )";
+      cout << " ==> ( " << ax0pos << ":" << ax0pos << "+" << ax0size << ", "
+	<< ax1pos << ":" << ax1pos << "+" << ax1size << " )";
     }
 
   gsl_matrix *cropped = gsl_matrix_alloc (ax0size, ax1size);
 
 
-  for (int i = ax1pos; i < ax1pos + ax1size; i++)
+  for (int i = ax0pos; i < ax0pos + ax0size; i++)
     {
-      for (int j = ax0pos; j < ax0pos + ax0size; j++)
+      for (int j = ax1pos; j < ax1pos + ax1size; j++)
 	{
-	  gsl_matrix_set (cropped, j - ax0pos, i - ax1pos,
+	  gsl_matrix_set (cropped, i - ax0pos, j - ax1pos,
 			  gsl_matrix_get (raw, i, j));
     }}
 
@@ -629,25 +665,22 @@ cropImage (string & reportfile, gsl_matrix * raw)
   int ax0size = (int) getINI_num (reportfile, "ROI", "ax0size");
   int ax1size = (int) getINI_num (reportfile, "ROI", "ax1size");
 
-  gsl_matrix *cropped = gsl_matrix_alloc (ax0size, ax1size);
-
   if (VERBOSE)
     {
+      cout << endl;
       cout << "Cropping image (" << raw->size1 << ", " << raw->size2 << ")";
-      cout << " ==> ( " << ax1pos << "+" << ax1size << ", " << ax0pos << "+"
-	<< ax0size << " )" << endl;
-
-//      cout << "Cropping size1: " << ax1pos << " to " << ax1pos +
-//      ax1size << endl;
-      //     cout << "Cropping size2: " << ax0pos << " to " << ax0pos +
-//      ax0size << endl;
+      cout << " ==> ( " << ax0pos << ":" << ax0pos << "+" << ax0size << ", "
+	<< ax1pos << ":" << ax1pos << "+" << ax1size << " )";
     }
 
-  for (int i = ax1pos; i < ax1pos + ax1size; i++)
+  gsl_matrix *cropped = gsl_matrix_alloc (ax0size, ax1size);
+
+
+  for (int i = ax0pos; i < ax0pos + ax0size; i++)
     {
-      for (int j = ax0pos; j < ax0pos + ax0size; j++)
+      for (int j = ax1pos; j < ax1pos + ax1size; j++)
 	{
-	  gsl_matrix_set (cropped, j - ax0pos, i - ax1pos,
+	  gsl_matrix_set (cropped, i - ax0pos, j - ax1pos,
 			  gsl_matrix_get (raw, i, j));
     }}
 
