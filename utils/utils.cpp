@@ -231,7 +231,7 @@ save_gsl_matrix_ASCII (gsl_matrix * m, string & file)
 
 
 void
-toTiffImage (gsl_matrix * m, string & filename)
+toTiffImage (gsl_matrix * m, string & filename, bool invert)
 {
   TIFF *tif = TIFFOpen (filename.c_str (), "w");
 
@@ -262,7 +262,16 @@ toTiffImage (gsl_matrix * m, string & filename)
 	{
 	  elem = gsl_matrix_get (m, i, yWidth - 1 - j);
 
-	  buf[i] = char (256. * (1. - (elem - min) / (max - min)));
+	  // Here the value for the pixel is normalized to be between 0 and 256
+	  // choose one or the other to get white to black or black to white gradients
+	  if (invert == true)
+	    {
+	      buf[i] = char (255. * (1. - (elem - min) / (max - min)));
+	    }
+	  else
+	    {
+	      buf[i] = char (255. * ((elem - min) / (max - min)));
+	    }
 	}
       TIFFWriteScanline (tif, buf, j);
     }
@@ -278,10 +287,17 @@ to_dat_file (gsl_vector * vecs[], unsigned int N, string shot, string datfile)
 {
 
   unsigned int minsize = 16000;
-  for (int i = 0; i < N; i++)
+  for (int i = 0; i < (int) N; i++)
     {
       if (vecs[i]->size < minsize)
 	minsize = vecs[i]->size;
+    }
+
+  unsigned int maxsize = 0;
+  for (int i = 0; i < (int) N; i++)
+    {
+      if (vecs[i]->size > maxsize)
+	maxsize = vecs[i]->size;
     }
 
   char path[MAXPATHLEN];
@@ -295,11 +311,15 @@ to_dat_file (gsl_vector * vecs[], unsigned int N, string shot, string datfile)
   FILE *dat;
   dat = fopen (fname.c_str (), "w+");
 
-  for (unsigned int index = 0; index < minsize; index++)
+  for (unsigned int index = 0; index < maxsize; index++)
     {
-      for (int i = 0; i < N; i++)
+      for (int i = 0; i < (int) N; i++)
 	{
-	  fprintf (dat, "%e\t", gsl_vector_get (vecs[i], index));
+	  if (index >= vecs[i]->size)
+	    fprintf (dat, "nan\t");
+	  //fprintf (dat, "%e\t", 0.0);
+	  else
+	    fprintf (dat, "%e\t", gsl_vector_get (vecs[i], index));
 	}
       fprintf (dat, "\n");
     }
@@ -422,6 +442,91 @@ to_uint (double x)
 }
 
 
+
+
+
+
+
+void
+findmoments (gsl_matrix * m, unsigned int *ci, unsigned int *cj, double *peak,
+	     unsigned int *wi1e, unsigned int *wj1e)
+{
+
+  printf ("---> Before findcenter\n");
+  findcenter (m, ci, cj, peak);
+  printf ("---> After findcenter\n");
+
+  //sometimes a negative atom number shows up in the column density
+  //this affects the center of mass calculation, so whenever a pixel
+  //with a negative number of atoms is found it is taken as zero 
+  //for the center of mass estimate
+  double i0 = (double) *ci;
+  double j0 = (double) *cj;
+
+  gsl_vector *isum = gsl_vector_alloc (m->size1);
+  gsl_vector *jsum = gsl_vector_alloc (m->size1);
+
+  double sum;
+
+  for (unsigned int i = 0; i < m->size1; i++)
+    {
+      sum = 0.;
+      for (unsigned int j = 0; j < m->size2; j++)
+	{
+	  sum = sum + gsl_matrix_get (m, i, j);
+	}
+      gsl_vector_set (isum, i, sum);
+    }
+
+  for (unsigned int j = 0; j < m->size2; j++)
+    {
+      sum = 0.;
+      for (unsigned int i = 0; i < m->size1; i++)
+	{
+	  sum = sum + gsl_matrix_get (m, i, j);
+	}
+      gsl_vector_set (jsum, j, sum);
+    }
+
+  double masstotal = 0., mass = 0.;
+  double wi1e_ = 0., wj1e_ = 0.;
+
+  for (unsigned int i = 0; i < m->size1; i++)
+    {
+      mass = gsl_vector_get (isum, i);
+      mass = mass > 0 ? mass : 0.;
+      masstotal += mass;
+      wi1e_ += mass * (i - i0) * (i - i0);
+    }
+  wi1e_ = sqrt (2. * wi1e_ / masstotal);
+
+
+  masstotal = 0.;
+  mass = 0.;
+  for (unsigned int j = 0; j < m->size2; j++)
+    {
+      mass = gsl_vector_get (jsum, j);
+      mass = mass > 0 ? mass : 0.;
+      masstotal += mass;
+      wj1e_ += mass * (j - j0) * (j - j0);
+    }
+  wj1e_ = sqrt (2. * wj1e_ / masstotal);
+
+  if (VERBOSE && false)
+    {
+      printf ("Center is at (%.1f,%.1f)\n", i0, j0);
+      cout << "Moments results:  ci = " << i0 << ",  cj = "
+	<< j0 << ",  wi1e = " << wi1e_ << ",  wj1e = " << wj1e_ << endl <<
+	endl;;
+    }
+
+  *wi1e = (unsigned int) floor (wi1e_);
+  *wj1e = (unsigned int) floor (wj1e_);
+
+  return;
+}
+
+
 void
 findcenter (gsl_matrix * m, unsigned int *i_max_ptr, unsigned int *j_max_ptr,
 	    double *max_ptr)
@@ -469,12 +574,6 @@ findcenter (gsl_matrix * m, unsigned int *i_max_ptr, unsigned int *j_max_ptr,
     }
 
   max = gsl_matrix_get (m, i_max, j_max);
-
-  if (VERBOSE)
-    {
-      cout << "\tCenter found at ( " << i_max << ", " << j_max <<
-	" ) = " << max;
-    }
 
   if (i_max == 0 || j_max == 0)
     {
@@ -573,6 +672,80 @@ findFWHM (gsl_matrix * m, unsigned int *FWHM_i, unsigned int *FWHM_j)
   return;
 }
 
+gsl_matrix *
+mask (gsl_matrix * m, double factor)
+{
+  double min = 1e10, max = 0.0, elem;
+  for (unsigned int i = 0; i < m->size1; i++)
+    {
+      for (unsigned int j = 0; j < m->size2; j++)
+	{
+	  elem = gsl_matrix_get (m, i, j);
+	  if (elem < min)
+	    min = elem;
+	  if (elem > max)
+	    max = elem;
+	}
+    }
+
+  gsl_matrix *masked = gsl_matrix_alloc (m->size1, m->size2);
+  for (unsigned int i = 0; i < m->size1; i++)
+    {
+      for (unsigned int j = 0; j < m->size2; j++)
+	{
+	  if (gsl_matrix_get (m, i, j) > min + factor * (max - min))
+	    gsl_matrix_set (masked, i, j, 1.0);
+	  else
+	    gsl_matrix_set (masked, i, j, 0.);
+	}
+    }
+  return masked;
+}
+
+gsl_matrix *
+smooth (gsl_matrix * raw, unsigned int bins)
+{
+
+  if (bins < 2)
+    return raw;
+  unsigned int s1 = raw->size1;
+  unsigned int s2 = raw->size2;
+  gsl_matrix *smoothed = gsl_matrix_alloc (s1, s2);
+
+  double avg;
+  int count;
+  unsigned int lmin, lmax, mmin, mmax;
+  for (unsigned int i = 0; i < raw->size1; i++)
+    {
+      for (unsigned int j = 0; j < raw->size2; j++)
+	{
+	  //printf ("(%d,%d) -->", i, j);
+	  count = 0;
+	  avg = 0.;
+
+	  lmin = (unsigned int) max ((double) i - (double) bins, 0.);
+	  lmax =
+	    (unsigned int) min ((double) i + (double) bins, (double) s1 - 1.);
+
+	  mmin = (unsigned int) max ((double) j - (double) bins, 0.);
+	  mmax =
+	    (unsigned int) min ((double) j + (double) bins, (double) s2 - 1.);
+
+	  //printf ("(%d,%d) to (%d,%d)\n", lmin, lmax, mmin, mmax);
+	  for (unsigned int l = lmin; l <= lmax; l++)
+	    {
+	      for (unsigned int m = mmin; m <= mmax; m++)
+		{
+		  avg += gsl_matrix_get (raw, l, m);
+		  count++;
+		}
+	    }
+	  avg = avg / count;
+	  gsl_matrix_set (smoothed, i, j, avg);
+	}
+    }
+  return smoothed;
+}
 
 gsl_matrix *
 autocropImage (gsl_matrix * raw, double nFWHM)

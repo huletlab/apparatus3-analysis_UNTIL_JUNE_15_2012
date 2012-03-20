@@ -25,23 +25,40 @@ int
 main (int argc, char **argv)
 {
   struct params p;
-  init_params (&p);
   processArgsAnalyze (argc, argv, p);
+  init_params (&p);
   VERBOSE = p.verbose;
 
+
   Fermions *f = new Fermions (&p);
-  f->LoadFITS ();
-  //f->ComputeColumnDensity ();
+  f->LoadFITS ();		// LoadFITS already computes the column density
 
   f->NAtoms ();
   setINI_num (p.reportfile, "CPP", "number", f->number);
   setINI_num (p.reportfile, "CPP", "nsp", f->Nsp);
   setINI_num (p.reportfile, "CPP", "maxOD", f->maxOD);
+  setINI_num (p.reportfile, "CPP", "maxPHI", f->maxPHI);
+  setINI_num (p.reportfile, "CPP", "maxCD", f->maxCD);
   setINI_num (p.reportfile, "CPP", "maxI", f->maxI);
 
+  f->FindMoments ();
+  if (!p.keeproi)
+    {
+      f->MomentsCrop ();
+    }
+
   f->Fit2DGauss ();
+  f->SaveColumnDensity ();
+  if (!p.keeproi)
+    {
+      f->MinimalCrop ();
+      f->FindMoments ();
+      f->Fit2DGauss ();
+      f->SaveColumnDensity ();
+    }
   f->FitScatt2DGauss ();
   //f->FitProbe2DGauss ();
+  f->Get2DCuts (true, false);
 
   setINI_num (p.reportfile, "CPP", "offset",
 	      f->gaus2dfit[5] * f->GetNPixels ());
@@ -80,7 +97,6 @@ main (int argc, char **argv)
       setINI_num (p.reportfile, "CPP", "T_2d_ax", f->T_2d_ax);
       f->Get2DCuts (true, p.fermi2d);
     }
-
 
 
   if (p.fermiazimuth)
@@ -227,7 +243,15 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
       printf ("\t\t(not implemented yet, does not do anything\n\n");
 
       printf (BOLDWHITE "\t-c, --crop\n" RESET);
-      printf ("\t\tcrop images before doing any fits\n\n");
+      printf
+	("\t\tcrop images, according to user speficied region before doing any fits\n\n");
+      printf
+	("\t\tNOTE: by default images are autocropped after a first fit with a 2D Gaussian.\n\n");
+      printf
+	("\t\t      If you use to keep the user defined ROI use --keeproi\n\n");
+
+      printf (BOLDWHITE "\t--keeproi\n" RESET);
+      printf ("\t\tkeeps the user defined ROI, does not autocrop\n\n");
 
       printf (BOLDWHITE "\t--fitradialaxial\n" RESET);
       printf ("\t\tperform radial and axial Gauss and Fermi fits\n\n");
@@ -247,6 +271,12 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	("\t\tdistance to be chopped off the tail when doing an azimuthal average\n");
       printf
 	("\t\tthe tail is always noise as there are less points to do averaging with\n\n");
+
+      printf (BOLDWHITE "\t--start-azimuth [DIST]\n" RESET);
+      printf
+	("\t\tdistance from the center for the start of  the azimuthal fit\n");
+      printf
+	("\t\tthe center is unwanted because the Fermi character of the cloud is more pronounced on the wings\n\n");
 
       printf (BOLDWHITE "\t--show-fermi\n" RESET);
       printf ("\t\tshow results of 2D Fermi and/or azimuthal Fermi fits\n\n");
@@ -283,6 +313,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
   p.reanalyze = false;
   p.center = false;
   p.crop = false;
+  p.keeproi = false;
   p.plots = false;
   p.roi_user = false;
   p.roisize_user = false;
@@ -291,6 +322,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
   p.fermiazimuth = false;
   p.azimuth_maxr = 512.;
   p.azimuth_chop = 0.;
+  p.azimuth_start = 0.;
   p.showfermi = false;
   p.show_B = false;		// Use this to show B factors, which affect temperature determination vio cloud size
   p.w_user = false;		// this flag is set if the user specifies the radial trap frequency from the command line 
@@ -312,11 +344,13 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	{"phc", no_argument, 0, 'P'},
 	{"center", required_argument, 0, 'C'},
 	{"crop", no_argument, 0, 'c'},
+	{"keeproi", no_argument, 0, 'k'},
 	{"fitradialaxial", no_argument, 0, '+'},
 	{"fermi2d", no_argument, 0, 'F'},
 	{"fermi-azimuth", no_argument, 0, 'a'},
 	{"maxr-azimuth", required_argument, 0, 'd'},
 	{"chop-azimuth", required_argument, 0, 'h'},
+	{"start-azimuth", required_argument, 0, 't'},
 	{"show-fermi", no_argument, 0, 's'},
 	{"force", no_argument, 0, 'f'},
 	{"ref", required_argument, 0, 'r'},
@@ -365,6 +399,10 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	  p.crop = 1;
 	  break;
 
+	case 'k':
+	  p.keeproi = true;
+	  break;
+
 	case '+':
 	  p.fitradialaxial = true;
 	  break;
@@ -378,15 +416,15 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	  break;
 
 	case 'd':
-	  temp = optarg;
-	  ss << temp;
-	  ss >> p.azimuth_maxr;
+	  p.azimuth_maxr = atof (optarg);
 	  break;
 
 	case 'h':
-	  temp = optarg;
-	  ss << temp;
-	  ss >> p.azimuth_chop;
+	  p.azimuth_chop = atof (optarg);
+	  break;
+
+	case 't':
+	  p.azimuth_start = atof (optarg);
 	  break;
 
 	case 's':

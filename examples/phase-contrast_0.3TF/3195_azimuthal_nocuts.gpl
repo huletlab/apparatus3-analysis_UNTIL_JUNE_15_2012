@@ -1,0 +1,9 @@
+set terminal png enhanced medium
+set output "3195_azimuthal_nocuts.png"
+f = "3195_azimuthal.dat"
+plot \
+f u 1:2 title 'azimuthal average' ,\
+f u 3:4 title 'azimuthal average (used for fit)' ,\
+f u 1:9 w lines title 'gauss 2d fit' ,\
+f u 1:10 w lines title 'fermi 2d fit' ,\
+f u 1:11 w lines title 'fermi azimuth fit'

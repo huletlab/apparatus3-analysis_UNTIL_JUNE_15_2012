@@ -16,8 +16,7 @@ objs = /lab/software/apparatus3/cpp/funcs/funcs.o /lab/software/apparatus3/cpp/u
 analyze: analyze.o ${objs} vt100_macros.h Fermions.h
 	g++ analyze.o ${objs} ${LFLAGS} -o analyze
 	chmod a+w analyze 
-#	cp -v analyze /lab/software/apparatus3/bin/analyze
-	cp -v analyze /lab/software/apparatus3/bin/analyze_test2
+	cp -v analyze /lab/software/apparatus3/bin/analyze
 	
 
 basler: basler.o ${objs} vt100_macros.h Fermions.h
