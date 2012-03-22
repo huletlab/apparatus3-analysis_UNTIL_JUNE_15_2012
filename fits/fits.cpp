@@ -8,9 +8,10 @@
 #include "fits.h"
 #include "/lab/software/apparatus3/cpp/funcs/funcs.h"
 
-#include "gaus1d.c"
-#include "gaus2d.c"
-#include "fermi2d.c"
+#include <math.h>
+#include "gaus1d.h"
+#include "gaus2d.h"
+#include "fermi2d.h"
 
 extern bool VERBOSE;
 
@@ -843,5 +844,84 @@ fit1dfermi_azimuthal_neldermead (gsl_vector ** a, double *fit)
   fit[2] = FIT (2);
   fit[3] = FIT (3);
   fit[4] = FIT (4);
+  return;
+}
+
+
+void
+fit1dfermi_azimuthal_zero_neldermead (gsl_vector ** a, double *fit)
+{
+
+  double n0 = fit[0];
+  double r = fit[1];
+  double B = fit[2];
+  double mx = fit[3];
+
+  const gsl_multimin_fminimizer_type *T = gsl_multimin_fminimizer_nmsimplex2;
+  gsl_multimin_fminimizer *s = NULL;
+  gsl_vector *ss, *x;
+  gsl_multimin_function f;
+
+/*Starting Point */
+  x = gsl_vector_alloc (4);
+  gsl_vector_set (x, 0, n0);
+  gsl_vector_set (x, 1, r);
+  gsl_vector_set (x, 2, B);
+  gsl_vector_set (x, 3, mx);
+
+
+/*Set initial step sizes to 1*/
+  ss = gsl_vector_alloc (4);
+  gsl_vector_set_all (ss, 1.0);
+
+  f.n = 4;
+  f.f = &fermi1d_azimuthal_zero_simplex_f;
+  f.params = a;
+
+
+  s = gsl_multimin_fminimizer_alloc (T, 4);
+
+  gsl_multimin_fminimizer_set (s, &f, x, ss);
+
+
+  size_t iter = 0;
+  int status;
+  double size;
+
+
+  do
+    {
+      iter++;
+      status = gsl_multimin_fminimizer_iterate (s);
+      if (status)
+	break;
+
+      size = gsl_multimin_fminimizer_size (s);
+      status = gsl_multimin_test_size (size, 1e-6);
+
+      if (status == GSL_SUCCESS && VERBOSE)
+	{
+	  printf (" converged to minimum at \n");
+	}
+
+      if ((VERBOSE) && iter % 20 == 0)
+	{
+	  printf
+	    ("%5d %10.3e %10.3e %10.3e %10.3e f() = %7.3e size = %.5f\n",
+	     iter, gsl_vector_get (s->x, 0), gsl_vector_get (s->x, 1),
+	     gsl_vector_get (s->x, 2), gsl_vector_get (s->x, 3),
+	     s->fval, size);
+	}
+    }
+  while (status == GSL_CONTINUE && iter < 1000);
+
+  gsl_vector_free (x);
+  gsl_vector_free (ss);
+  gsl_multimin_fminimizer_free (s);
+
+  fit[0] = FIT (0);
+  fit[1] = FIT (1);
+  fit[2] = FIT (2);
+  fit[3] = FIT (3);
   return;
 }

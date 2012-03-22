@@ -1,6 +1,6 @@
 
-#include <math.h>
 #include <omp.h>
+#include <math.h>
 
 double
 fermi2d_simplex_f (const gsl_vector * v, void *params)
@@ -82,6 +82,42 @@ fermi1d_azimuthal_simplex_f (const gsl_vector * v,  void *params)
   return sumsq;
 }
 
+double
+fermi1d_azimuthal_zero_simplex_f (const gsl_vector * v,  void *params)
+{
+  //benchmark start
+//  double start = omp_get_wtime(); 
+  
+  unsigned int s = (((gsl_vector **) params)[0])->size; 
+  
+
+  double n0     = gsl_vector_get (v, 0);
+  double r     = gsl_vector_get (v, 1);
+  double B      = gsl_vector_get (v, 2);
+  double mx    = gsl_vector_get(v, 3); 
+
+  double sumsq = 0.;
+  
+  gsl_vector *d  = ((gsl_vector **)params)[0]; 
+  gsl_vector *az = ((gsl_vector **)params)[1]; 
+
+  //i is radial === y
+  //j is axial  === g
+
+  for (unsigned int i = 0; i < s; i++){
+  //printf("Inisde simplex_f loop\n"); 
+          double dist = gsl_vector_get(d,i); 
+	  double dat = gsl_vector_get (az, i);
+          double model = n0 * pow( std::max ( 1. - pow( dist/r,2.) , 0.), 2.) + B + mx*dist;    
+	  sumsq += pow (model - dat, 2);
+    }
+
+//  end benchmark
+//  double end = omp_get_wtime();
+//  printf( "time elapsed in fermi errfunc %.5f\n", end-start); 
+
+  return sumsq;
+}
 
 double
 fermi1d_simplex_f (const gsl_vector *v, void *params)

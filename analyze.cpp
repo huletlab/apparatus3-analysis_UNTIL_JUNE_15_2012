@@ -12,6 +12,7 @@
 #include "/lab/software/apparatus3/cpp/funcs/funcs.h"
 #include "/lab/software/apparatus3/cpp/vt100_macros.h"
 #include <getopt.h>
+#include <time.h>
 #include <sstream>
 
 #include "Fermions.h"
@@ -20,6 +21,7 @@ bool VERBOSE;
 
 
 int processArgsAnalyze (int argc, char **argv, struct params &p);
+int writelog (int argc, char **argv);
 
 int
 main (int argc, char **argv)
@@ -45,6 +47,7 @@ main (int argc, char **argv)
   if (!p.keeproi)
     {
       f->MomentsCrop ();
+      f->FindMoments ();
     }
 
   f->Fit2DGauss ();
@@ -218,7 +221,7 @@ int
 processArgsAnalyze (int argc, char **argv, struct params &p)
 {
 /*  Read command line arguments */
-
+  writelog (argc, argv);
 
   if (argc == 1)
     {
@@ -522,5 +525,33 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
   p.tau2 = (double) getINI_num (p.reportfile, "EVAP", "tau2");	// 
   p.image = (double) getINI_num (p.reportfile, "EVAP", "image");	// 
 
+
   return EXIT_SUCCESS;
+}
+
+
+int
+writelog (int argc, char **argv)
+{
+
+  time_t rawtime;
+  struct tm *timeinfo;
+  char buffer[80];
+  time (&rawtime);
+  timeinfo = localtime (&rawtime);
+
+  strftime (buffer, 80, " %a %d %b %Y %X %p %Z   |   ", timeinfo);
+
+
+
+  ofstream fout ("analysislog", ofstream::app);
+//   fout << "analyze  " ;
+  fout << buffer;
+  for (int i = 0; i < argc; i++)
+    {
+      fout << argv[i] << " ";
+    }
+  fout << endl;
+  fout.close ();
+  return 0;
 }

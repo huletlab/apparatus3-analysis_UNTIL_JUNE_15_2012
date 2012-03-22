@@ -18,3 +18,5 @@ void fit2dgaus_no_offset( gsl_matrix * m, double *fit);
 void fit2dfermi_neldermead (gsl_matrix *m, double *fit);
 void fit1dfermi_neldermead (gsl_vector * m, double *fit);
 void fit1dfermi_azimuthal_neldermead (gsl_vector ** a, double *fit);
+void fit1dfermi_azimuthal_zero_neldermead (gsl_vector ** a, double *fit);
+

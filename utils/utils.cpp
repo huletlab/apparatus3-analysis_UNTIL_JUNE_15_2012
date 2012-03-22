@@ -452,9 +452,7 @@ findmoments (gsl_matrix * m, unsigned int *ci, unsigned int *cj, double *peak,
 	     unsigned int *wi1e, unsigned int *wj1e)
 {
 
-  printf ("---> Before findcenter\n");
   findcenter (m, ci, cj, peak);
-  printf ("---> After findcenter\n");
 
   //sometimes a negative atom number shows up in the column density
   //this affects the center of mass calculation, so whenever a pixel
@@ -463,6 +461,23 @@ findmoments (gsl_matrix * m, unsigned int *ci, unsigned int *cj, double *peak,
   double i0 = (double) *ci;
   double j0 = (double) *cj;
 
+  double masstotal = 0., mass = 0.;
+  double wi1e_ = 0., wj1e_ = 0.;
+
+  for (unsigned int i = 0; i < m->size1; i++)
+    for (unsigned int j = 0; j < m->size2; j++)
+      {
+	mass = gsl_matrix_get (m, i, j);
+	mass = mass > 0 ? mass : 0.;
+	masstotal += mass;
+	wi1e_ += mass * (i - i0) * (i - i0);
+	wj1e_ += mass * (j - j0) * (j - j0);
+      }
+  wi1e_ = sqrt (2. * wi1e_ / masstotal);
+  wj1e_ = sqrt (2. * wj1e_ / masstotal);
+
+/*
+//// SUM ALONG I AND J FIRST
   gsl_vector *isum = gsl_vector_alloc (m->size1);
   gsl_vector *jsum = gsl_vector_alloc (m->size1);
 
@@ -511,6 +526,9 @@ findmoments (gsl_matrix * m, unsigned int *ci, unsigned int *cj, double *peak,
       wj1e_ += mass * (j - j0) * (j - j0);
     }
   wj1e_ = sqrt (2. * wj1e_ / masstotal);
+
+////
+*/
 
   if (VERBOSE && false)
     {
