@@ -43,7 +43,7 @@ struct params
   bool keeproi;
 
   bool verbose, center, crop, plots, reanalyze, roi_user, roisize_user,
-    fitradialaxial, fermi2d, fermiazimuth, showfermi, show_B;
+    fitintegrated1D, fermi2d, fermiazimuth, showfermi, show_B;
   double azimuth_maxr, azimuth_chop, azimuth_start;
 
   double lambda, hc, gamma, magnif, kbm, decay;
@@ -224,19 +224,23 @@ public:
   void FitProbe2DGauss ();
   void Fit2DFermi ();
   void Get2DCuts (bool gauss, bool fermi);
-  void ComputeRadialAxialDensity ();
+  void ComputeIntegrated1DDensity ();
 //  void GetAzimuthalAverage ();
   void GetAzimuthalAverageEllipse ();
   void FitAzimuthalFermi ();
-  void MakeAzimuthalPlots ();
+  void MakePlots ();
   void Fit1DFermi (bool radial_axial);
 
   struct params *p;
 
   double number, number_fit, maxI, maxOD, maxCD, maxPHI, maxSP, maxNSP,
-    maxPEE, maxCA, minCA, maxCN, minCN, Tp0, Tsp, Nsp, gaus2dfit[6],
+    maxPEE, maxCA, minCA, maxCN, minCN, Tp0, Tsp, Nsp;
+
+  // Arrays for fit results 
+  double  gaus2dfit[6],
     gaus2dfit_err[6], scatt2dfit[6], probe2dfit[5], fermi2dfit[7],
-    fermi_azimuth_fit[5], fermi_azimuth_fit_zero[4];
+    fermi_azimuth_fit[5], fermi_azimuth_fit_zero[4], fit1d_gaus_0[4], fit1d_gaus_1[4];
+  double  fit1d_fermi_0[5], fit1d_fermi_1[5];
   double abs_ci, abs_cj;	// centers of cloud in the uncropped pict
 
   double nfit, nfit_err, peakd;
@@ -272,8 +276,17 @@ private:
   gsl_vector *cutIfermi;
   gsl_vector *cutJfermi;
 
-  gsl_vector *axialdensity;
-  gsl_vector *radialdensity;
+  gsl_vector *sum_density_0;
+  gsl_vector *sum_density_1;
+
+  gsl_vector *sum_density_0_dist;
+  gsl_vector *sum_density_1_dist;
+
+  gsl_vector *sum_density_0_fit_gaus;
+  gsl_vector *sum_density_1_fit_gaus;
+
+  gsl_vector *sum_density_0_fit_fermi;
+  gsl_vector *sum_density_1_fit_fermi;
 
   unsigned int nbins, usedbins, fitbins;
   double binsize;
@@ -1057,8 +1070,6 @@ Fermions::Fit2DGauss ()
 
   peakd = gaus2dfit[4] / (pow (M_PI, 0.5) * gaus2dfit[1]) / pow (p->magnif * 1e-4, 3);	// cm^-3
 
-  abs_ci += ci_;
-  abs_cj += cj_;
 
   if (VERBOSE)
     {
@@ -1412,12 +1423,14 @@ Fermions::MomentsCrop ()
   roi[2] = (unsigned int) floor (siz0);
   roi[3] = (unsigned int) floor (siz1);
 
-  if (VERBOSE)
+  if (VERBOSE )
     {
       printf ("\n    Determined ROI for moments crop [%d,%d,%d,%d]\n", roi[0],
 	      roi[1], roi[2], roi[3]);
     }
 
+      abs_ci += roi[0];
+      abs_cj += roi[1];
 
   gsl_matrix *cropped_columndensity = cropImage_ROI (roi, columndensity);
   gsl_matrix *cropped_scattered_ph = cropImage_ROI (roi, scattered_ph);
@@ -1428,6 +1441,9 @@ Fermions::MomentsCrop ()
   columndensity = cropped_columndensity;
   scattered_ph = cropped_scattered_ph;
   probe = cropped_probe;
+
+  if (VERBOSE )
+   { printf("\n    New matrix dimensions = %d, %d\n\n", columndensity->size1, columndensity->size2);}
 
   return;
 }
@@ -1484,6 +1500,9 @@ Fermions::MinimalCrop ()
 	      roi[1], roi[2], roi[3]);
     }
 
+      abs_ci += roi[0];
+      abs_cj += roi[1];
+
   gsl_matrix *cropped_columndensity = cropImage_ROI (roi, columndensity);
   gsl_matrix *cropped_scattered_ph = cropImage_ROI (roi, scattered_ph);
   gsl_matrix *cropped_probe = cropImage_ROI (roi, probe);
@@ -1494,6 +1513,8 @@ Fermions::MinimalCrop ()
   scattered_ph = cropped_scattered_ph;
   probe = cropped_probe;
 
+  if (VERBOSE)
+   { printf("\n    New matrix dimensions = %d, %d\n\n", columndensity->size1, columndensity->size2);}
   return;
 }
 
@@ -1863,7 +1884,7 @@ Fermions::FitAzimuthalFermi ()
       "------------ FIT AZIMUTHAL AVERAGE WITH FERMI-DIRAC ------------" <<
       endl;
 
-  /********************************* Finite temperature azimuthal fit ***/ 
+  /********************************* Finite temperature azimuthal fit ***/
   fermi_azimuth_fit[0] = peak;
   fermi_azimuth_fit[1] = -5.0;
   //fermi_azimuth_fit[2] = pow(wi_1e*wj_1e,0.5); 
@@ -1893,7 +1914,7 @@ Fermions::FitAzimuthalFermi ()
     cout << endl <<
       "---------- FIT AZIMUTHAL AVERAGE WITH T=0 FERMI-DIRAC -----------" <<
       endl;
-  /********************************* Zero temperature azimuthal fit *****/ 
+  /********************************* Zero temperature azimuthal fit *****/
   fermi_azimuth_fit_zero[0] = n0_az;
   fermi_azimuth_fit_zero[1] = r_az;
   fermi_azimuth_fit_zero[2] = B_az;
@@ -1902,10 +1923,10 @@ Fermions::FitAzimuthalFermi ()
   fit1dfermi_azimuthal_zero_neldermead (azimuthal_, fermi_azimuth_fit_zero);
 
   fermi_azimuth_fit[1] = fabs (fermi_azimuth_fit[1]);
-  
+
   n0_az_zeroT = fermi_azimuth_fit_zero[0];
-  r_az_zeroT  = fermi_azimuth_fit_zero[1]; 
-  B_az_zeroT  = fermi_azimuth_fit_zero[2];
+  r_az_zeroT = fermi_azimuth_fit_zero[1];
+  B_az_zeroT = fermi_azimuth_fit_zero[2];
   mx_az_zeroT = fermi_azimuth_fit_zero[3];
 
 
@@ -1935,10 +1956,72 @@ Fermions::FitAzimuthalFermi ()
 
 
 void
-Fermions::MakeAzimuthalPlots ()
+Fermions::MakePlots ()
 {
   if (VERBOSE)
-    cout << endl << "------------ MAKE AZIMUTHAL PLOTS ------------" << endl;
+    cout << endl << "----------------- MAKE PLOTS ----------------" << endl;
+
+
+  /******************* 1D ARRRAYS ******************/
+
+  unsigned int s1 = columndensity->size1;
+  unsigned int s2 = columndensity->size2;
+
+  sum_density_0_dist     = gsl_vector_alloc (s1);
+  sum_density_1_dist     = gsl_vector_alloc (s2);
+ 
+  sum_density_0_fit_gaus = gsl_vector_alloc (s1);
+  sum_density_1_fit_gaus = gsl_vector_alloc (s2);
+  sum_density_0_fit_fermi = gsl_vector_alloc (s1);
+  sum_density_1_fit_fermi = gsl_vector_alloc (s2);
+
+  double model1d_gaus_0, model1d_gaus_1, model1d_fermi_0, model1d_fermi_1;
+
+  if (VERBOSE) printf("\n---> Filling in arrays for results of integrated 1D fit along _0\n");
+  for (unsigned int i = 0; i < s1; i++)
+    {
+      double xi = (double) i;
+      model1d_gaus_0 =
+	fit1d_gaus_0[3] +
+	fit1d_gaus_0[2] * exp (-1.0 *
+			       pow ((xi - fit1d_gaus_0[0]) / fit1d_gaus_0[1],
+				    2.));
+      model1d_fermi_0 = 
+	fit1d_fermi_0[0] / f32 (fit1d_fermi_0[1]) *
+	f32 (fit1d_fermi_0[1] -
+	     fq (fit1d_fermi_0[1]) * pow ((i - fit1d_fermi_0[3]) /
+					    fit1d_fermi_0[2],
+					    2)) + fit1d_fermi_0[4];
+
+      gsl_vector_set (sum_density_0_fit_gaus, i, model1d_gaus_0);
+      gsl_vector_set (sum_density_0_fit_fermi, i, model1d_fermi_0);
+      gsl_vector_set (sum_density_0_dist, i, xi - fit1d_gaus_0[0] );
+    }
+
+  if (VERBOSE) printf("---> Filling in arrays for results of integrated 1D fit along _1\n");
+  for (unsigned int j = 0; j < s2; j++)
+    {
+      double xj = (double) j;
+      model1d_gaus_1 =
+	fit1d_gaus_1[3] +
+	fit1d_gaus_1[2] * exp (-1.0 *
+			       pow ((xj - fit1d_gaus_1[0]) / fit1d_gaus_1[1],
+				    2.));
+      model1d_fermi_1 = 
+	fit1d_fermi_1[0] / f32 (fit1d_fermi_1[1]) *
+	f32 (fit1d_fermi_1[1] -
+	     fq (fit1d_fermi_1[1]) * pow ((j - fit1d_fermi_1[3]) /
+					   fit1d_fermi_1[2],
+					   2)) + fit1d_fermi_1[4]; 
+      gsl_vector_set (sum_density_1_fit_gaus, j, model1d_gaus_1);
+      gsl_vector_set (sum_density_1_fit_fermi, j, model1d_fermi_1);
+      gsl_vector_set (sum_density_1_dist, j, xj - fit1d_gaus_1[0] );
+    }
+
+
+
+
+  /**************** AZIMUTHAL ARRAYS ***************/
 
   gaus2d_fit = gsl_vector_alloc (nbins);
   fermi2d_fit = gsl_vector_alloc (nbins);
@@ -1947,8 +2030,11 @@ Fermions::MakeAzimuthalPlots ()
   azimuthal_zero = gsl_vector_alloc (nbins);
   azimuthal_zero_fit = gsl_vector_alloc (nbins);
 
+  double r, model_gauss, model_fermi2d, model_fermi2d_zeroT, model_azimuthal,
+    model_azimuthal_zeroT, model_azimuthal_zeroT_fit;
 
-  double r, model_gauss, model_fermi2d, model_fermi2d_zeroT, model_azimuthal, model_azimuthal_zeroT, model_azimuthal_zeroT_fit;
+
+  if (VERBOSE) printf("\n---> Filling in arrays for results of azimuthal and 2D fits\n");
   for (unsigned int index = 0; index < usedbins; index++)
     {
       r = index * binsize;
@@ -1961,13 +2047,15 @@ Fermions::MakeAzimuthalPlots ()
 						      2) / (p->AR * rj_Fermi *
 							    ri_Fermi)) +
 	    B_Fermi;
-      model_fermi2d_zeroT =  n0 * pow( max( 1. - pow(r,2.) / (p->AR * rj_Fermi * ri_Fermi), 0.), 2.) +  
-	B_Fermi;
+	  model_fermi2d_zeroT =
+	    n0 *
+	    pow (max (1. - pow (r, 2.) / (p->AR * rj_Fermi * ri_Fermi), 0.),
+		 2.) + B_Fermi;
 	}
       else
 	{
 	  model_fermi2d = 0.;
-          model_fermi2d_zeroT =0.; 
+	  model_fermi2d_zeroT = 0.;
 	}
 
       if (p->fermiazimuth)
@@ -1978,8 +2066,12 @@ Fermions::MakeAzimuthalPlots ()
 							       2)) +
 	    B_az + mx_az * r;
 
-          model_azimuthal_zeroT = n0_az * pow( max ( 1. - pow(r/r_az,2.) , 0.), 2.) + B_az + mx_az*r;    
-          model_azimuthal_zeroT_fit = n0_az_zeroT * pow( max ( 1. - pow(r/r_az_zeroT,2.) , 0.), 2.) + B_az_zeroT + mx_az_zeroT*r;    
+	  model_azimuthal_zeroT =
+	    n0_az * pow (max (1. - pow (r / r_az, 2.), 0.),
+			 2.) + B_az + mx_az * r;
+	  model_azimuthal_zeroT_fit =
+	    n0_az_zeroT * pow (max (1. - pow (r / r_az_zeroT, 2.), 0.),
+			       2.) + B_az_zeroT + mx_az_zeroT * r;
 	}
       else
 	{
@@ -2002,83 +2094,178 @@ Fermions::MakeAzimuthalPlots ()
       gsl_vector_set (azimuthal_zero_fit, index, model_azimuthal_zeroT_fit);
     }
 
-  // Save the data aand results of the fits to a file
-  gsl_vector *output[14] =
-    { azimuthal_all_r, azimuthal_all_dat, azimuthal_r, azimuthal_dat, icut_r,
-icut_dat, jcut_r, jcut_dat, gaus2d_fit, fermi2d_fit, azimuthal_fit, fermi2d_zero , azimuthal_zero, azimuthal_zero_fit};
-  to_dat_file (output, 14, p->shotnum, "azimuthal.dat");
+
+  /**************** SAVE ARRAYS TO FILE ***************/
+  if (VERBOSE) printf("\n---> Saving all arrays to dat file\n");
+
+  gsl_vector *output[22] = { 
+    azimuthal_all_r,             //  1
+    azimuthal_all_dat,           //  2
+    azimuthal_r,                 //  3
+    azimuthal_dat,               //  4
+    icut_r,                      //  5
+    icut_dat,                    //  6
+    jcut_r,                      //  7
+    jcut_dat,                    //  8
+    gaus2d_fit,                  //  9
+    fermi2d_fit,                 // 10
+    azimuthal_fit,               // 11
+    fermi2d_zero,                // 12
+    azimuthal_zero,              // 13
+    azimuthal_zero_fit,          // 14
+    sum_density_0_dist,          // 15
+    sum_density_1_dist,          // 16
+    sum_density_0,               // 17
+    sum_density_1,               // 18
+    sum_density_0_fit_gaus,      // 19
+    sum_density_1_fit_gaus,      // 20
+    sum_density_0_fit_fermi,     // 21
+    sum_density_1_fit_fermi      // 22
+  };
+
+  to_dat_file (output, 22, p->shotnum, "plots.dat");
+
+
+  /******************** PRODUCE 1D PLOTS ***************/
+  if (VERBOSE) printf("\n---> Producing plots with GNUPLOT\n");
 
   char base[MAXPATHLEN];
   getcwd (base, MAXPATHLEN);
-  string gpl_path = makepath (base, p->shotnum, "_azimuthal.gpl");
+
+
+  std::stringstream s01 (std::stringstream::in | std::stringstream::out);
+  s01 << "set terminal png enhanced medium" << endl;
+  s01 << "set output \"" << p->shotnum << "_1d.png\"" << endl;
+
+ 
+  std::stringstream s02 (std::stringstream::in | std::stringstream::out);
+  s02 << "f = \"" << p->shotnum << "_plots.dat\"" << endl;
+  s02 << "plot \\" << endl;
+  s02 << "f u 15:17 title '1d sum_0' ,\\" << endl;
+  s02 << "f u 15:19 w lines title '1d sum_0 gaus fit' ,\\" << endl;
+  s02 << "f u 15:21 w lines title '1d sum_0 fermi fit' ,\\" << endl;
+  s02 << "f u 16:18 title '1d sum_1' ,\\" << endl;
+  s02 << "f u 16:20 w lines title '1d sum_1 gaus fit' ,\\" << endl;
+  s02 << "f u 16:22 w lines title '1d sum_1 fermi fit'" << endl;
+
+/*
+  // Show plots on screen if the plots option is selected 
+  gpl.open ("temp.gpl");
+  gpl << "set size 1.0,0.45" << endl;
+  gpl << "set multiplot" << endl;
+  gpl << "set origin 0.0,0.0" << endl;
+  gpl << "plot \"" << p->
+  gpl << "set origin 0.0,0.5" << endl;
+  gpl << "plot \"" << p->
+  gpl << "unset multiplot" << endl;
+  gpl.close ();
+  if (p->plots)
+    std::system ("gnuplot -persist temp.gpl");
+*/
+
+  //--- PNG plot 
+  string gpl_path = makepath (base, p->shotnum, "_1d.gpl");
   string gpl_sys = "gnuplot ";
   gpl_sys += gpl_path;
 
-  std::stringstream s1 ( std::stringstream::in | std::stringstream::out );
-  s1 << "set terminal png enhanced medium" << endl;
-  s1 << "set output \"" << p->shotnum << "_azimuthal.png\"" << endl;
-
-  std::stringstream s2 ( std::stringstream::in | std::stringstream::out );
-  s2 << "set ytics nomirror" << endl;
-  s2 << "set y2tics nomirror" << endl; 
-  s2 << "f = \"" << p->shotnum << "_azimuthal.dat\"" << endl;
-  s2 << "plot \\" << endl;
-
-  std::stringstream s3 ( std::stringstream::in | std::stringstream::out );
-  s3 << "f u 5:6 title 'scaled i-cut' ,\\" << endl;
-  s3 << "f u 7:8 title 'j-cut' ,\\" << endl;
-  
-  std::stringstream s4 ( std::stringstream::in | std::stringstream::out );
-  s4 << "f u 1:2 title 'azimuthal average' ,\\" << endl;
-  s4 << "f u 3:4 title 'azimuthal average (used for fit)' ,\\" << endl;
-  s4 << "f u 1:9 w lines title 'gauss 2d fit' ,\\" << endl;
-  s4 << "f u 1:10 w lines title 'fermi 2d fit' ,\\" << endl;
-  s4 << "f u 1:11 w lines title 'fermi azimuth fit' ,\\" << endl;
-  s4 << "f u 1:12 w lines title 'fermi 2d T=0' ,\\" << endl;
-  s4 << "f u 1:13 w lines title 'fermi azimuth T=0' ,\\" << endl;
-  s4 << "f u 1:14 w lines title 'fermi azimuth T=0 (fit)'";
-
-  std::stringstream s5 ( std::stringstream::in | std::stringstream::out );
-      if (p->fermi2d) {
-  s5 << ",\\" << endl << "f u 1:($10-$12) w lines axes x1y2 title '2d MINUS 2d,T=0'";
-      if (p->fermiazimuth)
-  s5 << ",\\" << endl << "f u 1:($11-$12) w lines axes x1y2 title 'azimuth MINUS 2d,T=0'"; }
-      if (p->fermiazimuth) {
-      if (p->fermi2d)
-  s5 << ",\\" << endl << "f u 1:($10-$13) w lines axes x1y2 title '2d MINUS az,T=0'";
-  s5 << ",\\" << endl << "f u 1:($11-$13) w lines axes x1y2 title 'azimuth MINUS az,T=0'"; 
-  s5 << ",\\" << endl << "f u 1:($11-$14) w lines axes x1y2 title 'azimuth MINUS az,T=0(fit)'"; }
-
-  //--- PNG plot
   std::ofstream gpl;
   gpl.open (gpl_path.c_str ());
-  gpl << s1.str(); 
-  gpl << s2.str(); 
-  gpl << s3.str(); 
-  gpl << s4.str(); 
-  gpl << s5.str(); 
+  gpl << s01.str ();
+  gpl << s02.str (); 
   gpl.close ();
+  if (VERBOSE) printf("\n---> Running script for 1D .png plot:\n\t%s\n", gpl_sys.c_str());
   std::system (gpl_sys.c_str ());
+
+  //--- On screen plot
+  gpl.open ("temp.gpl");
+  gpl << s02.str ();
+  gpl.close ();
+  if (p->plots)
+    std::system ("gnuplot -persist temp.gpl");
+  remove ("temp.gpl");
+
+  /**************** PRODUCE AZIMUTHAL PLOTS ************/
+
+  gpl_path = makepath (base, p->shotnum, "_azimuthal.gpl");
+  gpl_sys = "gnuplot ";
+  gpl_sys += gpl_path;
+
+  std::stringstream ss1 (std::stringstream::in | std::stringstream::out);
+  ss1 << "set terminal png enhanced medium" << endl;
+
+  std::stringstream ss2 (std::stringstream::in | std::stringstream::out);
+  ss2 << "set ytics nomirror" << endl;
+  ss2 << "set y2tics nomirror" << endl;
+  ss2 << "f = \"" << p->shotnum << "_plots.dat\"" << endl;
+  ss2 << "plot \\" << endl;
+
+  std::stringstream ss3 (std::stringstream::in | std::stringstream::out);
+  ss3 << "f u 5:6 title 'scaled i-cut' ,\\" << endl;
+  ss3 << "f u 7:8 title 'j-cut' ,\\" << endl;
+
+  std::stringstream ss4 (std::stringstream::in | std::stringstream::out);
+  ss4 << "f u 1:2 title 'azimuthal average' ,\\" << endl;
+  ss4 << "f u 3:4 title 'azimuthal average (used for fit)' ,\\" << endl;
+  ss4 << "f u 1:9 w lines title 'gauss 2d fit' ,\\" << endl;
+  ss4 << "f u 1:10 w lines title 'fermi 2d fit' ,\\" << endl;
+  ss4 << "f u 1:11 w lines title 'fermi azimuth fit' ,\\" << endl;
+  ss4 << "f u 1:12 w lines title 'fermi 2d T=0' ,\\" << endl;
+  ss4 << "f u 1:13 w lines title 'fermi azimuth T=0' ,\\" << endl;
+  ss4 << "f u 1:14 w lines title 'fermi azimuth T=0 (fit)'";
+
+  std::stringstream ss5 (std::stringstream::in | std::stringstream::out);
+  if (p->fermi2d)
+    {
+      ss5 << ",\\" << endl <<
+	"f u 1:($10-$12) w lines axes x1y2 title '2d MINUS 2d,T=0'";
+      if (p->fermiazimuth)
+	ss5 << ",\\" << endl <<
+	  "f u 1:($11-$12) w lines axes x1y2 title 'azimuth MINUS 2d,T=0'";
+    }
+  if (p->fermiazimuth)
+    {
+      if (p->fermi2d)
+	ss5 << ",\\" << endl <<
+	  "f u 1:($10-$13) w lines axes x1y2 title '2d MINUS az,T=0'";
+      ss5 << ",\\" << endl <<
+	"f u 1:($11-$13) w lines axes x1y2 title 'azimuth MINUS az,T=0'";
+      ss5 << ",\\" << endl <<
+	"f u 1:($11-$14) w lines axes x1y2 title 'azimuth MINUS az,T=0(fit)'";
+    }
+
+  //--- PNG plot
+  gpl.open (gpl_path.c_str ());
+  gpl << ss1.str ();
+  gpl << "set output \"" << p->shotnum << "_azimuthal.png\"" << endl;
+  gpl << ss2.str ();
+  gpl << ss3.str ();
+  gpl << ss4.str ();
+  gpl << ss5.str ();
+  gpl.close ();
+ 
+  if (VERBOSE) printf("\n---> Running script for AZIMUTHAL .png plot:\n\t%s\n", gpl_sys.c_str());
+  std::system (gpl_sys.c_str());
 
   //--- PNG plot (no cuts)
   gpl_path = makepath (base, p->shotnum, "_azimuthal_nocuts.gpl");
   gpl_sys = "gnuplot ";
   gpl_sys += gpl_path;
   gpl.open (gpl_path.c_str ());
-  gpl << s1.str(); 
+  gpl << ss1.str ();
   gpl << "set output \"" << p->shotnum << "_azimuthal_nocuts.png\"" << endl;
-  gpl << s2.str(); 
-  gpl << s4.str(); 
-  gpl << s5.str(); 
+  gpl << ss2.str ();
+  gpl << ss4.str ();
+  gpl << ss5.str ();
   gpl.close ();
+  if (VERBOSE) printf("\n---> Running script for AZIMUTHAL NO CUTS .png plot:\n\t%s\n", gpl_sys.c_str());
   std::system (gpl_sys.c_str ());
 
   //--- On screen plot
   gpl.open ("temp.gpl");
-  gpl << s2.str(); 
-  gpl << s3.str(); 
-  gpl << s4.str(); 
-  gpl << s5.str(); 
+  gpl << ss2.str ();
+  gpl << ss3.str ();
+  gpl << ss4.str ();
+  gpl << ss5.str ();
   gpl.close ();
   if (p->plots)
     std::system ("gnuplot -persist temp.gpl");
@@ -2089,17 +2276,20 @@ icut_dat, jcut_r, jcut_dat, gaus2d_fit, fermi2d_fit, azimuthal_fit, fermi2d_zero
 
 
 void
-Fermions::ComputeRadialAxialDensity ()
+Fermions::ComputeIntegrated1DDensity ()
 {
+
+  if (VERBOSE)
+    cout << endl << "----------- COMPUTE INTEGRATED 1D DENSITY ------------" << endl;
 
   unsigned int s1 = columndensity->size1;
   unsigned int s2 = columndensity->size2;
 
-  radialdensity = gsl_vector_alloc (s1);
-  axialdensity = gsl_vector_alloc (s2);
+  sum_density_0 = gsl_vector_alloc (s1);
+  sum_density_1 = gsl_vector_alloc (s2);
 
-  gsl_vector_set_all (radialdensity, 0.0);
-  gsl_vector_set_all (axialdensity, 0.0);
+  gsl_vector_set_all (sum_density_0, 0.0);
+  gsl_vector_set_all (sum_density_1, 0.0);
 
   double cd_ij = 0.0;
 
@@ -2109,180 +2299,105 @@ Fermions::ComputeRadialAxialDensity ()
 	{
 	  cd_ij = gsl_matrix_get (columndensity, i, j);
 
-	  gsl_vector_set (radialdensity, i,
-			  gsl_vector_get (radialdensity, i) + cd_ij);
-	  gsl_vector_set (axialdensity, j,
-			  gsl_vector_get (axialdensity, j) + cd_ij);
+	  gsl_vector_set (sum_density_0, i,
+			  gsl_vector_get (sum_density_0, i) + cd_ij);
+	  gsl_vector_set (sum_density_1, j,
+			  gsl_vector_get (sum_density_1, j) + cd_ij);
 	}
     }
 
   if (VERBOSE)
     cout << endl;
 
-  double radialfit[4] = { ci, wi_1e, gsl_vector_max (radialdensity), 0.1 };
-  fit1dgaus (radialdensity, radialfit);
-
-  double axialfit[4] = { cj, wj_1e, gsl_vector_max (axialdensity), 0.1 };
-  fit1dgaus (axialdensity, axialfit);
-
-// 02/07/2012 Commented out fermi fits on axial and radial profiles
-
-  double radialfit_fermi[5] =
-    { gsl_vector_max (radialdensity), -5.0, wi_1e, ci, radialfit[3] };
-//  fit1dfermi_neldermead (radialdensity, radialfit_fermi);
-
-  double axialfit_fermi[5] =
-    { gsl_vector_max (axialdensity), -5.0, wj_1e, cj, axialfit[3] };
-//  fit1dfermi_neldermead (axialdensity, axialfit_fermi);
-
-  TF_rd = pow (6 * f2 (radialfit_fermi[1]), -0.333);
-  TF_ax = pow (6 * f2 (axialfit_fermi[1]), -0.333);
-
 
   if (VERBOSE)
+    cout << endl <<
+      "------------- FIT INTEGRATED 1D WITH GAUSSIAN  --------------" <<
+      endl;
+
+  fit1d_gaus_0[0] = ci_;
+  fit1d_gaus_0[1] = wi_1e;
+  fit1d_gaus_0[2] = gsl_vector_max (sum_density_0);
+  fit1d_gaus_0[3] = 0.1;
+  fit1dgaus (sum_density_0, fit1d_gaus_0);
+
+  fit1d_gaus_1[0] = cj_;
+  fit1d_gaus_1[1] = wj_1e;
+  fit1d_gaus_1[2] = gsl_vector_max (sum_density_1);
+  fit1d_gaus_1[3] = 0.1;
+  fit1dgaus (sum_density_1, fit1d_gaus_1);
+
+  if (VERBOSE)
+    cout << endl <<
+      "----------- FIT INTEGRATED 1D WITH FERMI-DIRAC  ------------" <<
+      endl;
+// 02/07/2012 Commented out fermi fits on axial and radial profiles
+
+  fit1d_fermi_0[0] = gsl_vector_max (sum_density_0);
+  fit1d_fermi_0[1] = -5.0;
+  fit1d_fermi_0[2] = wi_1e;
+  fit1d_fermi_0[3] = ci_;
+  fit1d_fermi_0[4] = fit1d_gaus_0[3];
+  fit1dfermi_neldermead (sum_density_0, fit1d_fermi_0);
+
+  if (VERBOSE) printf("\n---> Finished _0 axis\n\n");
+
+
+  fit1d_fermi_1[0] = gsl_vector_max (sum_density_1);
+  fit1d_fermi_1[1] = -5.0;
+  fit1d_fermi_1[2] = wj_1e;
+  fit1d_fermi_1[3] = cj_;
+  fit1d_fermi_1[4] = fit1d_gaus_1[3];
+  fit1dfermi_neldermead (sum_density_1, fit1d_fermi_1);
+
+  if (VERBOSE)
+    cout << endl <<
+      "---> Calculating T/TF from fit results" <<
+      endl;
+
+  TF_rd = pow (6 * f2 (fit1d_fermi_0[1]), -0.333);
+  TF_ax = pow (6 * f2 (fit1d_fermi_1[1]), -0.333);
+
+
+  if (VERBOSE || true)
     {
       cout << endl <<
-	"------------ RADIAL AND AXIAL DENSITY GAUS FIT RESULTS ------------"
+	"------------ INTEGRATED 1D GAUS FIT RESULTS ------------"
 	<< endl;
-      printf ("\tc_rd = %.1f\n", radialfit[0]);
-      printf ("\tw_rd = %.2f\n", radialfit[1]);
-      printf ("\tA_rd = %.3e\n", radialfit[2]);
-      printf ("\tB_rd = %.3e\n", radialfit[3]);
-      printf ("\n");
+      printf ("\n_0 Profile:\n");
+      printf ("c_ref = (%.0f,%.0f)\n", abs_ci, abs_cj);
+      printf ("\tc_rd = %.1f\n", fit1d_gaus_0[0]);
+      printf ("\tw_rd = %.2f\n", fit1d_gaus_0[1]);
+      printf ("\tA_rd = %.3e\n", fit1d_gaus_0[2]);
+      printf ("\tB_rd = %.3e\n", fit1d_gaus_0[3]);
 
-      printf ("\tc_ax = %.1f\n", axialfit[0]);
-      printf ("\tw_ax = %.2f\n", axialfit[1]);
-      printf ("\tA_ax = %.3e\n", axialfit[2]);
-      printf ("\tB_ax = %.3e\n", axialfit[3]);
+      printf ("\n_1 Profile:\n");
+      printf ("\tc_ax = %.1f\n", fit1d_gaus_1[0]);
+      printf ("\tw_ax = %.2f\n", fit1d_gaus_1[1]);
+      printf ("\tA_ax = %.3e\n", fit1d_gaus_1[2]);
+      printf ("\tB_ax = %.3e\n", fit1d_gaus_1[3]);
 
-/* 
+ 
       cout << endl <<
-	"------------ RADIAL AND AXIAL DENSITY FERMI FIT RESULTS ------------"
+	"------------ INTEGRATED 1D DENSITY FERMI FIT RESULTS ------------"
 	<< endl;
-      printf ("\tn0_rd     = %.1f\n", radialfit_fermi[0]);
-      printf ("BetaMu = %.2e -->  f2(BetaMu) = %.4f, T/TF = %.2f\n",
-	      radialfit_fermi[1], f2 (radialfit_fermi[1]), TF_rd);
-      printf ("\tr_rd      = %.3e\n", radialfit_fermi[2]);
-      printf ("\tc_rd      = %.3e\n", radialfit_fermi[3]);
-      printf ("\tB_rd      = %.3e\n", radialfit_fermi[4]);
-      printf ("\n");
+      printf ("\n_0 Profile:\n");
+      printf ("\tn0_rd     = %.1f\n", fit1d_fermi_0[0]);
+      printf ("\tBetaMu = %.2e -->  f2(BetaMu) = %.4f, T/TF = %.2f\n",
+	      fit1d_fermi_0[1], f2 (fit1d_fermi_0[1]), TF_rd);
+      printf ("\tr_rd      = %.3e\n", fit1d_fermi_0[2]);
+      printf ("\tc_rd      = %.3e\n", fit1d_fermi_0[3]);
+      printf ("\tB_rd      = %.3e\n", fit1d_fermi_0[4]);
 
-      printf ("\tn0_ax     = %.1f\n", axialfit_fermi[0]);
-      printf ("BetaMu = %.2e -->  f2(BetaMu) = %.4f, T/TF = %.2f\n",
-	      axialfit_fermi[1], f2 (axialfit_fermi[1]), TF_ax);
-      printf ("\tr_ax      = %.3e\n", axialfit_fermi[2]);
-      printf ("\tc_ax      = %.3e\n", axialfit_fermi[3]);
-      printf ("\tB_ax      = %.3e\n", axialfit_fermi[4]); */
+      printf ("\n_1 Profile:\n");
+      printf ("\tn0_ax     = %.1f\n", fit1d_fermi_1[0]);
+      printf ("\tBetaMu = %.2e -->  f2(BetaMu) = %.4f, T/TF = %.2f\n",
+	      fit1d_fermi_1[1], f2 (fit1d_fermi_1[1]), TF_ax);
+      printf ("\tr_ax      = %.3e\n", fit1d_fermi_1[2]);
+      printf ("\tc_ax      = %.3e\n", fit1d_fermi_1[3]);
+      printf ("\tB_ax      = %.3e\n", fit1d_fermi_1[4]); 
     }
 
-
-
-  char base[MAXPATHLEN];
-  getcwd (base, MAXPATHLEN);
-
-  string radial_path = makepath (base, p->shotnum, "_radial.ndat");
-  string axial_path = makepath (base, p->shotnum, "_axial.ndat");
-
-  FILE *radial_F, *axial_F;
-
-  radial_F = fopen (radial_path.c_str (), "w+");
-  axial_F = fopen (axial_path.c_str (), "w+");
-
-  fprintf (radial_F, "#pixel\tdat\tmodel\n");
-  fprintf (axial_F, "#pixel\tdat\tmodel\n");
-
-  double gaus_model, fermi_model, data;
-
-  for (unsigned int i = 0; i < s1; i++)
-    {
-      double xi = (double) i;
-      gaus_model =
-	radialfit[3] +
-	radialfit[2] * exp (-1.0 *
-			    pow ((xi - radialfit[0]) / radialfit[1], 2.));
-      fermi_model = 0.0;
-/*	radialfit_fermi[0] / f32 (radialfit_fermi[1]) *
-	f32 (radialfit_fermi[1] -
-	     fq (radialfit_fermi[1]) * pow ((i - radialfit_fermi[3]) /
-					    radialfit_fermi[2],
-					    2)) + radialfit_fermi[4];*/
-      data = gsl_vector_get (radialdensity, i);
-      fprintf (radial_F, "%e\t%e\t%e\t%e\n", xi, data, gaus_model,
-	       fermi_model);
-    }
-
-  for (unsigned int j = 0; j < s2; j++)
-    {
-      double xj = (double) j;
-      gaus_model =
-	axialfit[3] +
-	axialfit[2] * exp (-1.0 * pow ((xj - axialfit[0]) / axialfit[1], 2.));
-      fermi_model = 0.0;
-/*	axialfit_fermi[0] / f32 (axialfit_fermi[1]) *
-	f32 (axialfit_fermi[1] -
-	     fq (axialfit_fermi[1]) * pow ((j - axialfit_fermi[3]) /
-					   axialfit_fermi[2],
-					   2)) + axialfit_fermi[4]; */
-      data = gsl_vector_get (axialdensity, j);
-      fprintf (axial_F, "%e\t%e\t%e\t%e\n", xj, data, gaus_model,
-	       fermi_model);
-    }
-
-  fclose (radial_F);
-  fclose (axial_F);
-
-  // Save plots to png file
-  std::ofstream gpl;
-  gpl.open ("temp.gpl");
-  gpl << "set terminal png medium" << endl;
-  gpl << "set output \"" << p->shotnum << "_radial.png\"" << endl;
-  gpl << "set size 1.0,0.45" << endl;
-  gpl << "plot \"" << p->
-    shotnum << "_radial.ndat\" u 1:2 pt 7 ps 1 notit ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_radial.ndat\" u 1:3 w lines title \"" << p->
-    shotnum << " radial gaus\" ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_radial.ndat\" u 1:4 w lines title \"" << p->
-    shotnum << " radial fermi\" " << endl;
-  gpl << "set output \"" << p->shotnum << "_axial.png\"" << endl;
-  gpl << "plot \"" << p->
-    shotnum << "_axial.ndat\" u 1:2 pt 7 ps 1 notit ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_axial.ndat\" u 1:3 w lines title \"" << p->
-    shotnum << " axial gaus\" ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_axial.ndat\" u 1:4 w lines title \"" << p->
-    shotnum << " axial fermi\" " << endl;
-  std::system ("gnuplot -persist temp.gpl");
-  gpl.close ();
-
-  // Show plots on screen if the plots option is selected 
-  gpl.open ("temp.gpl");
-  gpl << "set size 1.0,0.45" << endl;
-  gpl << "set multiplot" << endl;
-  gpl << "set origin 0.0,0.0" << endl;
-  gpl << "plot \"" << p->
-    shotnum << "_radial.ndat\" u 1:2 pt 7 ps 1 notit ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_radial.ndat\" u 1:3 w lines title \"" << p->
-    shotnum << "radial gaus\" ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_radial.ndat\" u 1:4 w lines title \"" << p->
-    shotnum << "radial fermi\" " << endl;
-  gpl << "set origin 0.0,0.5" << endl;
-  gpl << "plot \"" << p->
-    shotnum << "_axial.ndat\" u 1:2 pt 7 ps 1 notit ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_axial.ndat\" u 1:3 w lines title \"" << p->
-    shotnum << "axial gaus\" ,\\" << endl;
-  gpl << "\"" << p->
-    shotnum << "_axial.ndat\" u 1:4 w lines title \"" << p->
-    shotnum << "axial fermi\" " << endl;
-  gpl << "unset multiplot" << endl;
-  gpl.close ();
-  if (p->plots)
-    std::system ("gnuplot -persist temp.gpl");
 
   return;
 }

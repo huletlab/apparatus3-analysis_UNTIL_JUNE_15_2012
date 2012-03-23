@@ -79,11 +79,6 @@ main (int argc, char **argv)
   setINI_num (p.reportfile, "CPP", "photons_in_pulse", f->Tp0);
   setINI_num (p.reportfile, "CPP", "alphastar", p.alphastar);
 
-  if (p.fitradialaxial)
-    {
-      f->ComputeRadialAxialDensity ();
-    }
-
 
   if (p.fermi2d)
     {
@@ -114,9 +109,15 @@ main (int argc, char **argv)
       setINI_num (p.reportfile, "CPP", "mx_az", f->mx_az);
       setINI_num (p.reportfile, "CPP", "TF_az", f->TF_az);
       setINI_num (p.reportfile, "CPP", "T_az", f->T_az);
-      f->MakeAzimuthalPlots ();
     }
 
+  if (p.fitintegrated1D)
+    {
+      f->ComputeIntegrated1DDensity ();
+    }
+
+  f->ComputeIntegrated1DDensity ();
+  f->MakePlots ();
   printf ("%s  N = %.2e", p.shotnum.c_str (), f->nfit);
 
   //Print number
@@ -126,6 +127,11 @@ main (int argc, char **argv)
 	("\nNumber determination uncertainty might be too high: N = %.2e +/- %.0e\n",
 	 f->nfit, f->nfit_err);
     }
+
+  //Get centr of cloud with respect to the Andor full frame
+  f->abs_ci += f->ci_;
+  f->abs_cj += f->cj_;
+
 
   if (!p.phc)
     {
@@ -256,8 +262,8 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
       printf (BOLDWHITE "\t--keeproi\n" RESET);
       printf ("\t\tkeeps the user defined ROI, does not autocrop\n\n");
 
-      printf (BOLDWHITE "\t--fitradialaxial\n" RESET);
-      printf ("\t\tperform radial and axial Gauss and Fermi fits\n\n");
+      printf (BOLDWHITE "\t--fit1d\n" RESET);
+      printf ("\t\tperform fits on integrated 1D profiles\n\n");
 
       printf (BOLDWHITE "\t--fermi2d\n" RESET);
       printf ("\t\tperform 2D Fermi-Dirac fit\n\n");
@@ -320,7 +326,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
   p.plots = false;
   p.roi_user = false;
   p.roisize_user = false;
-  p.fitradialaxial = false;
+  p.fitintegrated1D = false;
   p.fermi2d = false;
   p.fermiazimuth = false;
   p.azimuth_maxr = 512.;
@@ -348,7 +354,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	{"center", required_argument, 0, 'C'},
 	{"crop", no_argument, 0, 'c'},
 	{"keeproi", no_argument, 0, 'k'},
-	{"fitradialaxial", no_argument, 0, '+'},
+	{"fit1d", no_argument, 0, '+'},
 	{"fermi2d", no_argument, 0, 'F'},
 	{"fermi-azimuth", no_argument, 0, 'a'},
 	{"maxr-azimuth", required_argument, 0, 'd'},
@@ -407,7 +413,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	  break;
 
 	case '+':
-	  p.fitradialaxial = true;
+	  p.fitintegrated1D = true;
 	  break;
 
 	case 'F':
