@@ -1,8 +1,6 @@
 /*
  * Project:  Extracting data fields from a .INI file
  *
- * File:     query.INI
- *
  * Contents: This program extracts a list of values given a section:key list from a
  *           given .INI file
  *
@@ -13,19 +11,12 @@
 
 #include "qini.h"
 
-//#include <gsl/gsl_vector.h>
-//#include <gsl/gsl_multimin.h>
-//#include <gsl/gsl_fit.h>
-
 
 struct data
 {
   string shotnum;
   string reportfile;
 };
-
-
-
 
 int
 main (int argc, char **argv)

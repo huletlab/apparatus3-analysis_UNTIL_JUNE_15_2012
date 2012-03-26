@@ -10,13 +10,13 @@ main (int argc, char **argv)
   VERBOSE = true;
 
   //Reading a fluorescence image from file
-  string file ("examples/img.fluor");
+  string file ("../examples/img.fluor");
   double img[ROW][COL];
   cout << ReadFluorImg (file, img) << endl;
   cout << img[0][0] << endl;
 
   //Reading a .fits image from file and storing it in valarray
-  string file2 ("examples/1070atoms.fits");
+  string file2 ("../examples/1070atoms.fits");
   valarray < unsigned long >imgdata;
   ReadFitsImg (file2, imgdata);
 
@@ -25,11 +25,11 @@ main (int argc, char **argv)
   cout << "gsl_matrix   rows: " << m->size1 << ", cols: " << m->size2 << endl;
 
   //Testing the crop image routine
-  string reportcrop ("examples/reportCROP.INI");
+  string reportcrop ("../examples/reportCROP.INI");
   gsl_matrix *c = cropImage (reportcrop, m);
   cout << "cropped gsl_matrix   rows: " << c->size1 << ", cols: " << c->
     size2 << endl;
-  string outputfile ("examples/cropped.ASCII");
+  string outputfile ("../examples/cropped.ASCII");
   save_gsl_matrix_ASCII (c, outputfile);
   cout << "First few elements of cropped image: " << endl;
   for (int i = 0; i < 5; i++)
@@ -59,7 +59,7 @@ main (int argc, char **argv)
   cout << "..." << endl << endl;
   gsl_matrix_free (m);
   //Testing counts2atoms conversion factor obtained from the report data
-  string report ("examples/report0562.INI");
+  string report ("../examples/report0562.INI");
   cout << "counts2atoms = " << counts2atoms (report) << endl;
   return 0;
 }

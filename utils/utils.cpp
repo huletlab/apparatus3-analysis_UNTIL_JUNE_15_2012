@@ -8,7 +8,7 @@
  * 
  */
 
-#include "/lab/software/apparatus3/cpp/utils/utils.h"
+#include "utils/utils.h"
 
 /********** FILE UTILITIES **********/
 

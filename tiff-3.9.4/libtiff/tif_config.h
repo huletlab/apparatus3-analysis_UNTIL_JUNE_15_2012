@@ -160,7 +160,7 @@
 /* #undef JBIG_SUPPORT */
 
 /* Support JPEG compression (requires IJG JPEG library) */
-/* #undef JPEG_SUPPORT */
+#define JPEG_SUPPORT 1
 
 /* Support LogLuv high dynamic range encoding */
 #define LOGLUV_SUPPORT 1
@@ -182,7 +182,7 @@
 /* #undef NO_MINUS_C_MINUS_O */
 
 /* Support Old JPEG compresson (read-only) */
-/* #undef OJPEG_SUPPORT */
+#define OJPEG_SUPPORT 1
 
 /* Name of package */
 #define PACKAGE "tiff"
@@ -219,16 +219,16 @@
 #define SIZEOF_INT 4
 
 /* The size of `long', as computed by sizeof. */
-#define SIZEOF_LONG 4
+#define SIZEOF_LONG 8
 
 /* The size of `signed long', as computed by sizeof. */
-#define SIZEOF_SIGNED_LONG 4
+#define SIZEOF_SIGNED_LONG 8
 
 /* The size of `signed long long', as computed by sizeof. */
 #define SIZEOF_SIGNED_LONG_LONG 8
 
 /* The size of `unsigned long', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_LONG 4
+#define SIZEOF_UNSIGNED_LONG 8
 
 /* The size of `unsigned long long', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_LONG_LONG 8
@@ -250,16 +250,16 @@
 #define THUNDER_SUPPORT 1
 
 /* Signed 64-bit type formatter */
-#define TIFF_INT64_FORMAT "%lld"
+#define TIFF_INT64_FORMAT "%ld"
 
 /* Signed 64-bit type */
-#define TIFF_INT64_T signed long long
+#define TIFF_INT64_T signed long
 
 /* Unsigned 64-bit type formatter */
-#define TIFF_UINT64_FORMAT "%llu"
+#define TIFF_UINT64_FORMAT "%lu"
 
 /* Unsigned 64-bit type */
-#define TIFF_UINT64_T unsigned long long
+#define TIFF_UINT64_T unsigned long
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #define TIME_WITH_SYS_TIME 1
@@ -283,13 +283,13 @@
 #endif
 
 /* Define to 1 if the X Window System is missing or not being used. */
-#define X_DISPLAY_MISSING 1
+/* #undef X_DISPLAY_MISSING */
 
 /* Support Deflate compression */
 /* #undef ZIP_SUPPORT */
 
 /* Number of bits in a file offset, on hosts where this is settable. */
-#define _FILE_OFFSET_BITS 64
+/* #undef _FILE_OFFSET_BITS */
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */

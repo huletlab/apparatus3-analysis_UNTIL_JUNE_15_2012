@@ -17,7 +17,7 @@ old_library='libtiffxx.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' /lab/software/apparatus3/cpp/tiff-3.9.4/libtiff/libtiff.la'
+dependency_libs=' /home/pd3/apparatus3-analysis/tiff-3.9.4/libtiff/libtiff.la -ljpeg'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
@@ -39,4 +39,4 @@ dlpreopen=''
 
 # Directory that this library needs to be installed in:
 libdir='/usr/local/lib'
-relink_command="(cd /lab/software/apparatus3/cpp/tiff-3.9.4/libtiff; /bin/sh /lab/software/apparatus3/cpp/tiff-3.9.4/libtool  --tag CXX --mode=relink g++ -g -O2 -no-undefined -version-number 3:9:4 -o libtiffxx.la -rpath /usr/local/lib tif_stream.lo ../libtiff/libtiff.la ../port/libport.la -lm -lc @inst_prefix_dir@)"
+relink_command="(cd /home/pd3/apparatus3-analysis/tiff-3.9.4/libtiff; /bin/sh /home/pd3/apparatus3-analysis/tiff-3.9.4/libtool  --tag CXX --mode=relink g++ -g -O2 -no-undefined -version-number 3:9:4 -o libtiffxx.la -rpath /usr/local/lib tif_stream.lo ../libtiff/libtiff.la ../port/libport.la -ljpeg -lm -lc @inst_prefix_dir@)"

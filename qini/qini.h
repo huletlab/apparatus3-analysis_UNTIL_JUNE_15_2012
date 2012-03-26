@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <sys/param.h>
 #include <unistd.h>
-#include "/home/pedro/cpp/simpleini/SimpleIni.h"
+#include "SimpleIni.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>

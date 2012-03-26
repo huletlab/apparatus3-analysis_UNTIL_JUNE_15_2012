@@ -4,15 +4,16 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <valarray>
 
-#include "/lab/software/apparatus3/cpp/qini/qini.h"
+#include "qini/qini.h"
 
-#include "/usr/local/CCfits/config.h"
+#include "CCfits/config.h"
 
-#include <CCfits/CCfits>
-#include <gsl/gsl_matrix.h>
-#include <gsl/gsl_sort_vector.h>
-#include "/lab/software/apparatus3/cpp/utils/tiffio.h"
+#include "CCfits/CCfits"
+#include "gsl/gsl_matrix.h"
+#include "gsl/gsl_sort_vector.h"
+#include "tiffio.h"
 
 #define ROW 779
 #define COL 1034

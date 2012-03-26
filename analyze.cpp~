@@ -7,10 +7,10 @@
  * 
  */
 
-#include "/lab/software/apparatus3/cpp/utils/utils.h"
-#include "/lab/software/apparatus3/cpp/fits/fits.h"
-#include "/lab/software/apparatus3/cpp/funcs/funcs.h"
-#include "/lab/software/apparatus3/cpp/vt100_macros.h"
+#include "utils.h"
+#include "fits.h"
+#include "funcs.h"
+#include "vt100_macros.h"
 #include <getopt.h>
 #include <time.h>
 #include <sstream>
