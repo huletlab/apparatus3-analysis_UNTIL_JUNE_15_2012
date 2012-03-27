@@ -1,12 +1,13 @@
 /*
- * Project:  Testing fitting routines
+ * Project:  Testing fourier transform routines
  *
  * Author:   Pedro M Duarte 2011-02
  * 
  */
 
-#include "/lab/software/apparatus3/cpp/utils/utils.h"
 #include "fourier.h"
+#include "utils/utils.h"
+
 
 using namespace std;
 
@@ -21,8 +22,10 @@ main (int argc, char **argv)
   string file ("4504atoms.fits");
   gsl_matrix *img = ReadFitsImg_gsl_matrix (file);
 
+  cout << "testing ..." << endl;
   gsl_matrix *FT = fft2d (img);
 
+  cout << "testing ..." << endl;
 
   char path[MAXPATHLEN];
   getcwd (path, MAXPATHLEN);
@@ -34,6 +37,7 @@ main (int argc, char **argv)
   ft_path += ".TIFF";
   toTiffImage (FT, ft_path);
 
+  cout << "testing ..." << endl;
   gsl_matrix_free (FT);
 
   cout << "testing ..." << endl;

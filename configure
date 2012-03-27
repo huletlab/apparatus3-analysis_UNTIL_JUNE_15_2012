@@ -6,4 +6,9 @@
 # 	gsl
 #
 
-sed -i 's!APP3-CPP!'$PWD'!g' utils/Makefile
+sed 's!APP3-CPP!'$PWD'!g' qini/Makefile.0 > qini/Makefile
+sed 's!APP3-CPP!'$PWD'!g' utils/Makefile.0 > utils/Makefile
+sed 's!APP3-CPP!'$PWD'!g' funcs/Makefile.0 > funcs/Makefile
+sed 's!APP3-CPP!'$PWD'!g' fourier/Makefile.0 > fourier/Makefile
+sed 's!APP3-CPP!'$PWD'!g' fits/Makefile.0 > fits/Makefile
+sed 's!APP3-CPP!'$PWD'!g' Makefile.0 > Makefile

@@ -1,5 +1,5 @@
 /*
- * Project:  Implementations of general fitting routines
+ * Project:  Wrappers for GSL Fermi-Dirac integrals
  *
  * Author:   Pedro M Duarte 2011-01
  * 
@@ -44,8 +44,8 @@ f0 (double x)
   return gsl_sf_fermi_dirac_0 (x);
 }
 
-double 
+double
 fq (double x)
 {
-  return (1 + exp(x))/ exp(x) * log( 1 + exp(x) );
+  return (1 + exp (x)) / exp (x) * log (1 + exp (x));
 }

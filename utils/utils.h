@@ -7,13 +7,11 @@
 #include <valarray>
 
 #include "qini/qini.h"
-
 #include "CCfits/config.h"
-
 #include "CCfits/CCfits"
-#include "gsl/gsl_matrix.h"
-#include "gsl/gsl_sort_vector.h"
-#include "tiffio.h"
+#include "gsl-1.15/gsl/gsl_matrix.h"
+#include "gsl-1.15/gsl/gsl_sort_vector.h"
+#include "tiff-3.9.4/libtiff/tiffio.h"
 
 #define ROW 779
 #define COL 1034

@@ -1,5 +1,5 @@
 /*
- * Project:  Implementations of general fitting routines
+ * Project:  Wrappers for GSL Fermi-Dirac integrals
  *
  * Author:   Pedro M Duarte 2011-01
  * 

@@ -1443,7 +1443,7 @@ Fermions::MomentsCrop ()
   probe = cropped_probe;
 
   if (VERBOSE )
-   { printf("\n    New matrix dimensions = %d, %d\n\n", columndensity->size1, columndensity->size2);}
+   { printf("\n    New matrix dimensions = %d, %d\n\n", (unsigned int) columndensity->size1, (unsigned int) columndensity->size2);}
 
   return;
 }
@@ -1514,7 +1514,7 @@ Fermions::MinimalCrop ()
   probe = cropped_probe;
 
   if (VERBOSE)
-   { printf("\n    New matrix dimensions = %d, %d\n\n", columndensity->size1, columndensity->size2);}
+   { printf("\n    New matrix dimensions = %d, %d\n\n", (unsigned int) columndensity->size1, (unsigned int) columndensity->size2);}
   return;
 }
 

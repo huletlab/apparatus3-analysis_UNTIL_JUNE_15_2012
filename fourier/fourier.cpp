@@ -6,6 +6,7 @@
  */
 
 #include "fourier.h"
+#include "utils/utils.h"
 
 extern bool VERBOSE;
 

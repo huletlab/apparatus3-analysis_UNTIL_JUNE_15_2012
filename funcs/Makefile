@@ -1,19 +1,18 @@
 all: testfuncs
 
-INI_INC = /lab/software/apparatus3/cpp/qini
-CCFITS_INC = /usr/local/include/CCfits
-GSL_INC = /lab/software/apparatus3/cpp/gsl/include
+GSL_INC = /home/pd3/apparatus3-analysis/gsl-1.15/
+APP3_CPP_INC = /home/pd3/apparatus3-analysis/
+INC = -I${APP3_CPP_INC} -I${GSL_INC}
 
-INC = -I${INI_INC} -I${CCFITS_INC} -I${GSL_INC} 
+GSL_LIB = -L/home/pd3/apparatus3-analysis/gsl-1.15/.libs/ -L/home/pd3/apparatus3-analysis/gsl-1.15/cblas/.libs
 
-GSL_LIB = /lab/software/apparatus3/cpp/gsl/lib
+RUN_TIME_PATHS = -R/home/pd3/apparatus3-analysis/gsl-1.15/.libs/:/home/pd3/apparatus3-analysis/gsl-1.15/cblas/.libs/
 
 CFLAGS = -Wall ${INC} 
-LFLAGS = -L${GSL_LIB} -lgsl -lgslcblas -lm -lCCfits -ltiff
+LFLAGS = ${GSL_LIB} -lgsl -lgslcblas -lm -Xlinker ${RUN_TIME_PATHS} 
 
 
-objs =   /lab/software/apparatus3/cpp/utils/utils.o /lab/software/apparatus3/cpp/qini/qini_utils.o 
-
+objs =  
 
 testfuncs: testfuncs.o funcs.o
 	g++  $^ ${objs} ${LFLAGS} -o testfuncs

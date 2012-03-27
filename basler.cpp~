@@ -7,9 +7,9 @@
  * 
  */
 
-#include "/lab/software/apparatus3/cpp/utils/utils.h"
-#include "/lab/software/apparatus3/cpp/fits/fits.h"
-#include "/lab/software/apparatus3/cpp/vt100_macros.h"
+#include "utils/utils.h"
+#include "fits/fits.h"
+#include "funcs/funcs.h"
 #include <getopt.h>
 #include <sstream>
 
@@ -101,37 +101,34 @@ processArgsBasler (int argc, char **argv, struct params &p)
       cout << endl;
       cout << "  usage:  " << argv[0] << " SHOTNUM [OPTIONS] " << endl;
       cout << endl;
-      cout << set_bold (true) << "  OPTIONS " << set_bold (false) << endl <<
-	endl;
+      cout << "  OPTIONS " << endl << endl;
 
-      cout << set_bold (true) << "\t-C, --center [c0,c1]" << set_bold (false)
-	<< endl <<
+      cout << "\t-C, --center [c0,c1]" <<
+	endl <<
 	"\t\tmanuallly specify the initial guess for the cloud center" << endl
 	<< "\t\t(not implemented yet, doesn't do anything)" << endl << endl;
 
-      cout << set_bold (true) << "\t-c, --crop" << set_bold (false) << endl <<
+      cout << "\t-c, --crop" << endl <<
 	"\t\tcrop images before any further analysis" << endl << endl;
 
-      cout << set_bold (true) << "\t-f, --force" << set_bold (false) << endl
+      cout << "\t-f, --force" << endl
 	<< "\t\tforce reanalysis of the shot" << endl << endl;
 
-      cout << set_bold (true) << "\t-p, --plots" << set_bold (false) << endl
+      cout << "\t-p, --plots" << endl
 	<< "\t\tplots profiles when fitting" << endl << endl;
 
-      cout << set_bold (true) << "\t-r [PATH], --ref [PATH]" <<
-	set_bold (false) << endl << "\t\tindicates path of reference image" <<
-	endl << endl;
+      cout << "\t-r [PATH], --ref [PATH]" <<
+	endl << "\t\tindicates path of reference image" << endl << endl;
 
-      cout << set_bold (true) << "\t-R, --roi [ax0pos,ax1pos,ax0size,ax1size]"
-	<< set_bold (false) << endl << "\t\tsets the atoms region of interest"
-	<< endl << endl;
+      cout << "\t-R, --roi [ax0pos,ax1pos,ax0size,ax1size]"
+	<< endl << "\t\tsets the atoms region of interest" << endl << endl;
 
-      cout << set_bold (true) << "\t-S, --roisize [ax0size,ax1size]"
-	<< set_bold (false) << endl <<
+      cout << "\t-S, --roisize [ax0size,ax1size]"
+	<< endl <<
 	"\t\tsets the size for the atoms region of interest" << endl <<
 	"\t\tprogram attempts to center ROI around cloud" << endl << endl;
 
-      cout << set_bold (true) << "\t-v, --verbose" << set_bold (false) << endl
+      cout << "\t-v, --verbose" << endl
 	<< "\t\tshow messages to explain what is being done" << endl << endl;
 
       exit (2);

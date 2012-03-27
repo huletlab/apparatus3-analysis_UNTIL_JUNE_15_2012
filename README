@@ -134,4 +134,24 @@ directory.  The qini_utils.o object will be at $(APP3-CPP)/qini .
 
 --- utils
 
+This defines an object that contains utitlities to manipulate data.  It is used
+to load data from a file into a gsl_matrix data structure, and then to
+manipulate this structure in various ways:  cropping, finding moments, saving
+to TIFF, smoothing, masking, subtracting, etc.   It also implements other
+helper functions used elsewhere in the analysis of data. 
+
+To use it the header utils.h must be included and the object utils.o must be
+provided to the linker.
+
+--- funcs
+
+This provides wrappers for the Fermi-Dirac integrals.  To use it the header
+file funcs.h must be included and the object funcs.o must be provided to the
+linker.
+
+--- fourier
+
+WORK IN PROGRESS.  Aims to implement fast fourier transforms for smoothing 2D
+data.
+
 

@@ -6,7 +6,7 @@
  */
 
 #include "fits.h"
-#include "/lab/software/apparatus3/cpp/funcs/funcs.h"
+#include "funcs/funcs.h"
 
 #include <math.h>
 #include "gaus1d.h"

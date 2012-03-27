@@ -1,0 +1,3 @@
+ Mon 26 Mar 2012 14:44:30 PM CDT   |   analyze 3195 -f --fermi-azimuth --start-azimuth 0 -v 
+ Mon 26 Mar 2012 14:44:41 PM CDT   |   analyze 3195 -f --fermi-azimuth --start-azimuth 0 -v 
+ Mon 26 Mar 2012 14:54:16 PM CDT   |   analyze 3195 -f --fermi-azimuth --start-azimuth 0 --fermi2d -v 

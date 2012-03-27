@@ -5,8 +5,9 @@
  * 
  */
 
-#include "/lab/software/apparatus3/cpp/utils/utils.h"
 #include "fits.h"
+#include "utils/utils.h"
+#include "funcs/funcs.h"
 
 using namespace std;
 

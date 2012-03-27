@@ -6,6 +6,7 @@
  */
 
 #include "fourier.h"
+#include "utils/utils.h"
 
 extern bool VERBOSE;
 
@@ -40,9 +41,9 @@ fft2d (gsl_matrix * m)
 		  F[u][v] = gsl_complex_add (F[u][v], c);
 	    }}
 	  gsl_matrix_set (FT, u, v, gsl_complex_abs (F[u][v]));
+	}
+      cout << u << "\t";
     }
-    cout << u << "\t";
-}
 
   return FT;
 

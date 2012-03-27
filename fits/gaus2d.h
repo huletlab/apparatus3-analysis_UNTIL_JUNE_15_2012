@@ -83,7 +83,7 @@ gaus2d_f (const gsl_vector * x, void *data, gsl_vector * f)
 
   size_t ii = 0;
 
-  #pragma omp parallel for
+  //#pragma omp parallel for
   for (unsigned int i = 0; i < s1; i++)
     {
       for (unsigned int j = 0; j < s2; j++)
