@@ -11,7 +11,7 @@
 #include "CCfits/CCfits"
 #include "gsl-1.15/gsl/gsl_matrix.h"
 #include "gsl-1.15/gsl/gsl_sort_vector.h"
-#include "tiff-3.9.4/libtiff/tiffio.h"
+#include "tiff-4.0.0/libtiff/tiffio.h"
 
 #define ROW 779
 #define COL 1034

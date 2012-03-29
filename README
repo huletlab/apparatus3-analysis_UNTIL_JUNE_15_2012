@@ -6,7 +6,28 @@ The base path where all this code is stored will be referred to as $(APP3-CPP)
 %%%%%%%%%%%%%%%%%%%%% THIRD PARTY OPEN-SOURCE LIBRARIES %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The APP3-ANALYSIS code package uses the following open source libraries:
+The APP3-ANALYSIS code package uses the open source libraries described below. 
+These libraries must be installed in the following path:
+
+	$(APP3-CPP)/../cpptools
+
+The git repository for APP3-ANALYSIS provides the compressed source code for
+all the cpptools.  When building the code for the first time, the user should
+first build the cpptools. To do so create the directory called 
+
+	$(APP3-CPP)/../cpptools
+
+and inside it untar the files for the open-source libraries that are provided
+here, namely run the following commands inside the cpptools directory:
+
+	% unzip simpleini-4.15.zip
+	% tar -zxvf tiff-4.0.0.tar.gz
+	% tar -zxvf cfitsio3290.tar.gz
+	% tar -zxvf CCfits-2.4.tar.gz
+	% tar -zxvf gsl-1.15.tar.gz
+
+Proceed to go inside the directory for each of the third party tools and do the
+following:  	
 
 --- simpleini
 
@@ -15,11 +36,11 @@ all one needs to do is include the file called "SimpleIni.h",  all the function
 declarations and definitions are inside this file. 
 
 
---- tiff-3.9.4
+--- tiff-4.0.0
 
-This is the libtiff library version 3.9.4 downloaded from www.libtiff.org.
+This is the libtiff library version 4.0.0 downloaded from www.libtiff.org.
 You need to compile it before you can use it.  To do so go inside the
-$(APP3-CPP)/tiff-3.9.4  directory and type
+$(APP3-CPP)/../cpptools/tiff-3.9.4  directory and type
 
 	% ./configure
 	% make
@@ -33,8 +54,8 @@ where they are accesible to everyone, suchs /usr/lib or /usr/include.   It is
 best to try to keep everything in this code self-contained. 
  
 After compiling, the header files will be accesible in
-$(APP3-CPP)/tiff-3.9.4/libtiff/ and the shared library will be accessible at
-$(APP3-CPP)/tiff-3.9.4/libtiff/.libs/libtiff.so
+$(APP3-CPP)/../cpptools/tiff-4.0.0/libtiff/ and the shared library will be accessible at
+$(APP3-CPP)/../cpptools/tiff-4.0.0/libtiff/.libs/libtiff.so
 
 --- gsl-1.15
 
@@ -58,7 +79,7 @@ and the header files will be accesible at $(APP3-CPP)/gsl-1.15/gsl
 --- cfitsio
 
 This is the CFITSIO library for reading and writing files in FITS format.  To
-compile it go inside $(APP3-CPP)/cfitsio and type 
+compile it go inside $(APP3-CPP)/../cpptools/cfitsio and type 
 	
 	% ./configure 
 	% make
@@ -68,7 +89,8 @@ Again, no need to do 'make install'.
 --- CCFits
 
 This is the object oriented interface to the cfitsio library.  To compile it
-you have to compile cfitsio first.  Then configure CCFits by typing
+you have to compile cfitsio first.  Then configure CCFits by going inside
+$(APP3-CPP)/../cpptools/CCfits and typing
 
 	% ./configure --with-cfitsio-include=$(PATH)  --with-cfitsio-libdir=$(PATH)
 
@@ -76,8 +98,8 @@ where $(PATH) is the ABSOLUTE path to your cfitsio library.  For instance in my
 case I used
 
 	% ./configure
-	 --with-cfitsio-include=/home/pd3/apparatus3-analysis/cfitsio
-	 --with-cfitsio-libdir=/home/pd3/apparatus3-analysis/cfitsio
+	 --with-cfitsio-include=/home/pd3/cpptools/cfitsio
+	 --with-cfitsio-libdir=/home/pd3/cpptools/cfitsio
 
 After CCFits is configured, then proceed to type
 

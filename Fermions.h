@@ -721,7 +721,7 @@ Fermions::ComputeColumnDensity ()
 		  high_phase_shift_flag = true;
 		}
 
-	      i0 = 2 * i0;	// The polarizer cuts it down by a factor of 2.  
+	      i0 = 2. * i0;	// The polarizer cuts it down by a factor of 2.  
 
 	      sig1 =
 		(0.5 - det) * sigma0 / pow (p->magnif * 1e-4,

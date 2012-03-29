@@ -1,8 +1,9 @@
 all: qini
 
 APP3_CPP_INC = /lab/software/apparatus3/cpp/
+CPP_TOOLS_INC = /lab/software/apparatus3/cpptools/
 
-INC = -I${APP3_CPP_INC} 
+INC = -I${APP3_CPP_INC} -I${CPP_TOOLS_INC}
 
 CFLAGS = -Wall ${INC}
 LFLAGS = -lm
