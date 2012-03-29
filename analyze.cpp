@@ -97,10 +97,11 @@ main (int argc, char **argv)
     }
 
 
+  f->GetAzimuthalAverageEllipse ();
+
   if (p.fermiazimuth)
     {
       //f->GetAzimuthalAverage ();
-      f->GetAzimuthalAverageEllipse ();
       f->FitAzimuthalFermi ();
       setINI_num (p.reportfile, "CPP", "n0_az", f->n0_az);
       setINI_num (p.reportfile, "CPP", "BetaMu_az", f->BetaMu_az);
@@ -111,13 +112,12 @@ main (int argc, char **argv)
       setINI_num (p.reportfile, "CPP", "T_az", f->T_az);
     }
 
-  if (p.fitintegrated1D)
+  if (p.fitfermi1D || p.fermiazimuth || p.fermi2d || true)
     {
       f->ComputeIntegrated1DDensity ();
+      f->MakePlots ();
     }
 
-  f->ComputeIntegrated1DDensity ();
-  f->MakePlots ();
   printf ("%s  N = %.2e", p.shotnum.c_str (), f->nfit);
 
   //Print number
@@ -262,8 +262,8 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
       printf (BOLDWHITE "\t--keeproi\n" RESET);
       printf ("\t\tkeeps the user defined ROI, does not autocrop\n\n");
 
-      printf (BOLDWHITE "\t--fit1d\n" RESET);
-      printf ("\t\tperform fits on integrated 1D profiles\n\n");
+      printf (BOLDWHITE "\t--fermi1d\n" RESET);
+      printf ("\t\tperform fermi fits on integrated 1D profiles\n\n");
 
       printf (BOLDWHITE "\t--fermi2d\n" RESET);
       printf ("\t\tperform 2D Fermi-Dirac fit\n\n");
@@ -326,7 +326,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
   p.plots = false;
   p.roi_user = false;
   p.roisize_user = false;
-  p.fitintegrated1D = false;
+  p.fitfermi1D = false;
   p.fermi2d = false;
   p.fermiazimuth = false;
   p.azimuth_maxr = 512.;
@@ -354,7 +354,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	{"center", required_argument, 0, 'C'},
 	{"crop", no_argument, 0, 'c'},
 	{"keeproi", no_argument, 0, 'k'},
-	{"fit1d", no_argument, 0, '+'},
+	{"fermi1d", no_argument, 0, '+'},
 	{"fermi2d", no_argument, 0, 'F'},
 	{"fermi-azimuth", no_argument, 0, 'a'},
 	{"maxr-azimuth", required_argument, 0, 'd'},
@@ -413,7 +413,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	  break;
 
 	case '+':
-	  p.fitintegrated1D = true;
+	  p.fitfermi1D = true;
 	  break;
 
 	case 'F':

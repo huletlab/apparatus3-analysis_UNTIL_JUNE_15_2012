@@ -438,7 +438,7 @@ Copyright (C) 2009 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/pd3/apparatus3-analysis/cfitsio'
+ac_pwd='/lab/software/apparatus3/cpp/cfitsio'
 srcdir='.'
 test -n "$AWK" || AWK=awk
 # The default lists apply if the user does not specify any file.
@@ -639,7 +639,7 @@ S["libexecdir"]="${exec_prefix}/libexec"
 S["sbindir"]="${exec_prefix}/sbin"
 S["bindir"]="${exec_prefix}/bin"
 S["program_transform_name"]="s,x,x,"
-S["prefix"]="/home/pd3/apparatus3-analysis/cfitsio"
+S["prefix"]="/lab/software/apparatus3/cpp/cfitsio"
 S["exec_prefix"]="${prefix}"
 S["PACKAGE_URL"]=""
 S["PACKAGE_BUGREPORT"]=""

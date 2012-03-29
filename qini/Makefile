@@ -1,6 +1,6 @@
 all: qini
 
-APP3_CPP_INC = /home/pd3/apparatus3-analysis/
+APP3_CPP_INC = /lab/software/apparatus3/cpp/
 
 INC = -I${APP3_CPP_INC} 
 

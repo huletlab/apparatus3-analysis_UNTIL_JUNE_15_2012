@@ -1,12 +1,12 @@
 all: testfuncs
 
-GSL_INC = /home/pd3/apparatus3-analysis/gsl-1.15/
-APP3_CPP_INC = /home/pd3/apparatus3-analysis/
+GSL_INC = /lab/software/apparatus3/cpp/gsl-1.15/
+APP3_CPP_INC = /lab/software/apparatus3/cpp/
 INC = -I${APP3_CPP_INC} -I${GSL_INC}
 
-GSL_LIB = -L/home/pd3/apparatus3-analysis/gsl-1.15/.libs/ -L/home/pd3/apparatus3-analysis/gsl-1.15/cblas/.libs
+GSL_LIB = -L/lab/software/apparatus3/cpp/gsl-1.15/.libs/ -L/lab/software/apparatus3/cpp/gsl-1.15/cblas/.libs
 
-RUN_TIME_PATHS = -R/home/pd3/apparatus3-analysis/gsl-1.15/.libs/:/home/pd3/apparatus3-analysis/gsl-1.15/cblas/.libs/
+RUN_TIME_PATHS = -R/lab/software/apparatus3/cpp/gsl-1.15/.libs/:/lab/software/apparatus3/cpp/gsl-1.15/cblas/.libs/
 
 CFLAGS = -Wall ${INC} 
 LFLAGS = ${GSL_LIB} -lgsl -lgslcblas -lm -Xlinker ${RUN_TIME_PATHS} 

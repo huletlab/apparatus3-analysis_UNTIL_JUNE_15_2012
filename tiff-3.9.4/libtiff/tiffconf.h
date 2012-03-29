@@ -21,7 +21,7 @@
 #define SIZEOF_INT 4
 
 /* The size of a `long', as computed by sizeof. */
-#define SIZEOF_LONG 8
+#define SIZEOF_LONG 4
 
 /* Compatibility stuff. */
 
@@ -40,7 +40,7 @@
 #define CCITT_SUPPORT 1
 
 /* Support JPEG compression (requires IJG JPEG library) */
-#define JPEG_SUPPORT 1
+/* #undef JPEG_SUPPORT */
 
 /* Support JBIG compression (requires JBIG-KIT library) */
 /* #undef JBIG_SUPPORT */
@@ -56,19 +56,19 @@
 
 /* Support Old JPEG compresson (read contrib/ojpeg/README first! Compilation
    fails with unpatched IJG JPEG library) */
-#define OJPEG_SUPPORT 1
+/* #undef OJPEG_SUPPORT */
 
 /* Support Macintosh PackBits algorithm */
 #define PACKBITS_SUPPORT 1
 
 /* Support Pixar log-format algorithm (requires Zlib) */
-/* #undef PIXARLOG_SUPPORT */
+#define PIXARLOG_SUPPORT 1
 
 /* Support ThunderScan 4-bit RLE algorithm */
 #define THUNDER_SUPPORT 1
 
 /* Support Deflate compression */
-/* #undef ZIP_SUPPORT */
+#define ZIP_SUPPORT 1
 
 /* Support strip chopping (whether or not to convert single-strip uncompressed
    images to mutiple strips of ~8Kb to reduce memory usage) */

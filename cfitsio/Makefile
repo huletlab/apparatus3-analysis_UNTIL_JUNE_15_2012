@@ -18,7 +18,7 @@
 # testprog targets. See also changes and comments in configure.in
 #
 
-prefix		= /home/pd3/apparatus3-analysis/cfitsio
+prefix		= /lab/software/apparatus3/cpp/cfitsio
 exec_prefix	= ${prefix}
 DESTDIR		= 
 CFITSIO_LIB	= ${DESTDIR}${exec_prefix}/lib

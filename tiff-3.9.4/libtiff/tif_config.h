@@ -160,7 +160,7 @@
 /* #undef JBIG_SUPPORT */
 
 /* Support JPEG compression (requires IJG JPEG library) */
-#define JPEG_SUPPORT 1
+/* #undef JPEG_SUPPORT */
 
 /* Support LogLuv high dynamic range encoding */
 #define LOGLUV_SUPPORT 1
@@ -182,7 +182,7 @@
 /* #undef NO_MINUS_C_MINUS_O */
 
 /* Support Old JPEG compresson (read-only) */
-#define OJPEG_SUPPORT 1
+/* #undef OJPEG_SUPPORT */
 
 /* Name of package */
 #define PACKAGE "tiff"
@@ -209,7 +209,7 @@
 #define PACKBITS_SUPPORT 1
 
 /* Support Pixar log-format algorithm (requires Zlib) */
-/* #undef PIXARLOG_SUPPORT */
+#define PIXARLOG_SUPPORT 1
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -219,16 +219,16 @@
 #define SIZEOF_INT 4
 
 /* The size of `long', as computed by sizeof. */
-#define SIZEOF_LONG 8
+#define SIZEOF_LONG 4
 
 /* The size of `signed long', as computed by sizeof. */
-#define SIZEOF_SIGNED_LONG 8
+#define SIZEOF_SIGNED_LONG 4
 
 /* The size of `signed long long', as computed by sizeof. */
 #define SIZEOF_SIGNED_LONG_LONG 8
 
 /* The size of `unsigned long', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_LONG 8
+#define SIZEOF_UNSIGNED_LONG 4
 
 /* The size of `unsigned long long', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_LONG_LONG 8
@@ -250,16 +250,16 @@
 #define THUNDER_SUPPORT 1
 
 /* Signed 64-bit type formatter */
-#define TIFF_INT64_FORMAT "%ld"
+#define TIFF_INT64_FORMAT "%lld"
 
 /* Signed 64-bit type */
-#define TIFF_INT64_T signed long
+#define TIFF_INT64_T signed long long
 
 /* Unsigned 64-bit type formatter */
-#define TIFF_UINT64_FORMAT "%lu"
+#define TIFF_UINT64_FORMAT "%llu"
 
 /* Unsigned 64-bit type */
-#define TIFF_UINT64_T unsigned long
+#define TIFF_UINT64_T unsigned long long
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #define TIME_WITH_SYS_TIME 1
@@ -286,10 +286,10 @@
 /* #undef X_DISPLAY_MISSING */
 
 /* Support Deflate compression */
-/* #undef ZIP_SUPPORT */
+#define ZIP_SUPPORT 1
 
 /* Number of bits in a file offset, on hosts where this is settable. */
-/* #undef _FILE_OFFSET_BITS */
+#define _FILE_OFFSET_BITS 64
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */

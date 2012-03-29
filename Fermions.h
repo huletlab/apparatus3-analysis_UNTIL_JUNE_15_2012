@@ -43,7 +43,7 @@ struct params
   bool keeproi;
 
   bool verbose, center, crop, plots, reanalyze, roi_user, roisize_user,
-    fitintegrated1D, fermi2d, fermiazimuth, showfermi, show_B;
+    fitfermi1D, fermi2d, fermiazimuth, showfermi, show_B;
   double azimuth_maxr, azimuth_chop, azimuth_start;
 
   double lambda, hc, gamma, magnif, kbm, decay;
@@ -991,6 +991,11 @@ Fermions::FindMoments ()
   //findcenter (smoothed, &ci, &cj, &peak);
   findmoments (masked, &ci, &cj, &peak, &wi1e, &wj1e);
 
+  ci_ = (double) ci; 
+  cj_ = (double) cj;
+  wi_1e = (double) wi1e;
+  wj_1e = (double) wj1e;
+
   //findcenter (columndensity, &ci, &cj, &peak);
   //findFWHM (columndensity, &FWHMi, &FWHMj);
   gsl_matrix_free (smoothed);
@@ -1015,10 +1020,10 @@ Fermions::Fit2DGauss ()
 
   if (VERBOSE)
     cout << endl;
-  Fit1DGauss (false);		//False is to fit row
+  //Fit1DGauss (false);		//False is to fit row
   if (VERBOSE)
     cout << endl;
-  Fit1DGauss (true);		//True is to fit column
+  //Fit1DGauss (true);		//True is to fit column
 
   gaus2dfit[0] = ci_;
   gaus2dfit[1] = wi_1e;
@@ -1986,12 +1991,17 @@ Fermions::MakePlots ()
 	fit1d_gaus_0[2] * exp (-1.0 *
 			       pow ((xi - fit1d_gaus_0[0]) / fit1d_gaus_0[1],
 				    2.));
+      if ( p->fitfermi1D) {
       model1d_fermi_0 = 
 	fit1d_fermi_0[0] / f32 (fit1d_fermi_0[1]) *
 	f32 (fit1d_fermi_0[1] -
 	     fq (fit1d_fermi_0[1]) * pow ((i - fit1d_fermi_0[3]) /
 					    fit1d_fermi_0[2],
 					    2)) + fit1d_fermi_0[4];
+      }
+      else {
+      model1d_fermi_0 = 0.; 
+      }
 
       gsl_vector_set (sum_density_0_fit_gaus, i, model1d_gaus_0);
       gsl_vector_set (sum_density_0_fit_fermi, i, model1d_fermi_0);
@@ -2007,12 +2017,18 @@ Fermions::MakePlots ()
 	fit1d_gaus_1[2] * exp (-1.0 *
 			       pow ((xj - fit1d_gaus_1[0]) / fit1d_gaus_1[1],
 				    2.));
+
+      if ( p->fitfermi1D) {
       model1d_fermi_1 = 
 	fit1d_fermi_1[0] / f32 (fit1d_fermi_1[1]) *
 	f32 (fit1d_fermi_1[1] -
 	     fq (fit1d_fermi_1[1]) * pow ((j - fit1d_fermi_1[3]) /
 					   fit1d_fermi_1[2],
 					   2)) + fit1d_fermi_1[4]; 
+      }
+      else {
+      model1d_fermi_1 = 0.;  
+      }
       gsl_vector_set (sum_density_1_fit_gaus, j, model1d_gaus_1);
       gsl_vector_set (sum_density_1_fit_fermi, j, model1d_fermi_1);
       gsl_vector_set (sum_density_1_dist, j, xj - fit1d_gaus_1[0] );
@@ -2022,6 +2038,8 @@ Fermions::MakePlots ()
 
 
   /**************** AZIMUTHAL ARRAYS ***************/
+
+  
 
   gaus2d_fit = gsl_vector_alloc (nbins);
   fermi2d_fit = gsl_vector_alloc (nbins);
@@ -2338,6 +2356,8 @@ Fermions::ComputeIntegrated1DDensity ()
   fit1d_fermi_0[2] = wi_1e;
   fit1d_fermi_0[3] = ci_;
   fit1d_fermi_0[4] = fit1d_gaus_0[3];
+
+  if (p->fitfermi1D)
   fit1dfermi_neldermead (sum_density_0, fit1d_fermi_0);
 
   if (VERBOSE) printf("\n---> Finished _0 axis\n\n");
@@ -2348,9 +2368,11 @@ Fermions::ComputeIntegrated1DDensity ()
   fit1d_fermi_1[2] = wj_1e;
   fit1d_fermi_1[3] = cj_;
   fit1d_fermi_1[4] = fit1d_gaus_1[3];
+
+  if (p->fitfermi1D)
   fit1dfermi_neldermead (sum_density_1, fit1d_fermi_1);
 
-  if (VERBOSE)
+  if (VERBOSE && p->fitfermi1D)
     cout << endl <<
       "---> Calculating T/TF from fit results" <<
       endl;
@@ -2359,7 +2381,7 @@ Fermions::ComputeIntegrated1DDensity ()
   TF_ax = pow (6 * f2 (fit1d_fermi_1[1]), -0.333);
 
 
-  if (VERBOSE || true)
+  if (VERBOSE )
     {
       cout << endl <<
 	"------------ INTEGRATED 1D GAUS FIT RESULTS ------------"
@@ -2376,7 +2398,10 @@ Fermions::ComputeIntegrated1DDensity ()
       printf ("\tw_ax = %.2f\n", fit1d_gaus_1[1]);
       printf ("\tA_ax = %.3e\n", fit1d_gaus_1[2]);
       printf ("\tB_ax = %.3e\n", fit1d_gaus_1[3]);
+  }
 
+  if (VERBOSE && p->fitfermi1D )
+    {
  
       cout << endl <<
 	"------------ INTEGRATED 1D DENSITY FERMI FIT RESULTS ------------"

@@ -1,41 +1,40 @@
 all: analyze basler probe 
 
-GSL_INC = /home/pd3/apparatus3-analysis/gsl-1.15/
-APP3_CPP_INC = /home/pd3/apparatus3-analysis
+GSL_INC = /lab/software/apparatus3/cpp/gsl-1.15/
+APP3_CPP_INC = /lab/software/apparatus3/cpp
 INC = -I${APP3_CPP_INC} -I${GSL_INC}
 
-GSL_LIB = -L/home/pd3/apparatus3-analysis/gsl-1.15/.libs/ -L/home/pd3/apparatus3-analysis/gsl-1.15/cblas/.libs/
-CCFITS_LIB = /home/pd3/apparatus3-analysis/CCfits/.libs/libCCfits.so
-TIFF_LIB = /home/pd3/apparatus3-analysis/tiff-3.9.4/libtiff/.libs/libtiff.so
+GSL_LIB = -L/lab/software/apparatus3/cpp/gsl-1.15/.libs/ -L/lab/software/apparatus3/cpp/gsl-1.15/cblas/.libs/
+CCFITS_LIB = /lab/software/apparatus3/cpp/CCfits/.libs/libCCfits.so
+TIFF_LIB = /lab/software/apparatus3/cpp/tiff-3.9.4/libtiff/.libs/libtiff.so
 
-RUN_TIME_PATHS = -R/home/pd3/apparatus3-analysis/gsl-1.15/.libs/:/home/pd3/apparatus3-analysis/gsl-1.15/cblas/.libs/:/home/pd3/apparatus3-analysis/CCfits/.libs/:/home/pd3/apparatus3-analysis/tiff-3.9.4/libtiff/.libs/
+RUN_TIME_PATHS = -R/lab/software/apparatus3/cpp/gsl-1.15/.libs/:/lab/software/apparatus3/cpp/gsl-1.15/cblas/.libs/:/lab/software/apparatus3/cpp/CCfits/.libs/:/lab/software/apparatus3/cpp/tiff-3.9.4/libtiff/.libs/
 
 CFLAGS =  -Wall ${INC}
 LFLAGS = ${GSL_LIB} -lgsl -lgslcblas -lm ${CCFITS_LIB} ${TIFF_LIB} -Xlinker ${RUN_TIME_PATHS}
 
-objs = /home/pd3/apparatus3-analysis/funcs/funcs.o /home/pd3/apparatus3-analysis/utils/utils.o /home/pd3/apparatus3-analysis/qini/qini_utils.o /home/pd3/apparatus3-analysis/fits/fits.o 
+objs = /lab/software/apparatus3/cpp/funcs/funcs.o /lab/software/apparatus3/cpp/utils/utils.o /lab/software/apparatus3/cpp/qini/qini_utils.o /lab/software/apparatus3/cpp/fits/fits.o 
  
 analyze: analyze.o ${objs} Fermions.h
 	g++ analyze.o ${objs} ${LFLAGS} -o analyze
 	chmod a+w analyze 
-	cp -v analyze /home/pd3/apparatus3-analysis/bin/analyze
-	rm analyze.o
+	cp -v analyze /lab/software/apparatus3/cpp/bin/analyze
 	
 
 basler: basler.o ${objs} Fermions.h
 	g++ basler.o ${objs} ${LFLAGS} -o basler
 	chmod a+w basler
-	cp -v basler /home/pd3/apparatus3-analysis/bin/basler
+	cp -v basler /lab/software/apparatus3/cpp/bin/basler
 
 probe: probe.o ${objs} Fermions.h
 	g++ probe.o ${objs} ${LFLAGS} -o probe
 	chmod a+w probe
-	cp -v probe /home/pd3/apparatus3-analysis/bin/probe
+	cp -v probe /lab/software/apparatus3/cpp/bin/probe
 
 clean:
 	rm -f *.o
 
-.cpp.o:  
+.cpp.o: 
 	indent $<
 	g++ ${CFLAGS} $< -c
 

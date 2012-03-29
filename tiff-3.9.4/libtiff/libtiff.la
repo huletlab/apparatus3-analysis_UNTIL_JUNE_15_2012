@@ -17,7 +17,7 @@ old_library='libtiff.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -ljpeg -lm -lc'
+dependency_libs=' -lz -lm -lc'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

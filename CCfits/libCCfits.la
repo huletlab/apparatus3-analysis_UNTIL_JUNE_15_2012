@@ -14,7 +14,7 @@ library_names='libCCfits.so.0.0.0 libCCfits.so.0 libCCfits.so'
 old_library=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/home/pd3/apparatus3-analysis/cfitsio -lcfitsio'
+dependency_libs=' -L/lab/software/apparatus3/cpp/cfitsio/ -lcfitsio'
 
 # Version information for libCCfits.
 current=0
