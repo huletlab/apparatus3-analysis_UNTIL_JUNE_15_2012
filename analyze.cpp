@@ -308,6 +308,10 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
       printf
 	("\t\tthe program will automatically determine the center for this ROI\n\n");
 
+      printf (BOLDWHITE "\t--blanks\n" RESET);
+      printf
+	("\t\tuse this option when taking empty pictures (for diagnosing probe, etc.)\n\n");
+
       printf (BOLDWHITE "\t-v, --verbose\n" RESET);
       printf ("\t\tshow messages to explain what is being done\n\n");
 
@@ -335,6 +339,9 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
   p.showfermi = false;
   p.show_B = false;		// Use this to show B factors, which affect temperature determination vio cloud size
   p.w_user = false;		// this flag is set if the user specifies the radial trap frequency from the command line 
+
+  p.blanks = false;		// this flag us used when the pictures are blanks (i.e. have no atoms) it is useful for probe diagnostics
+  // notice that this flag can be set on the command line or captured from the report.
 
   p.alphastar = 1.0;		// Calibration for absorption imaging polarizaation and effective saturation
   // See "Strong saturation of absorption imaging of dense clouds of ultracold atoms" 
@@ -366,6 +373,7 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	{"plots", no_argument, 0, 'p'},
 	{"roi", required_argument, 0, 'R'},
 	{"roisize", required_argument, 0, 'S'},
+	{"blanks", no_argument, 0, 'b'},
 	{"verbose", no_argument, 0, 'v'},
 	{"trapfreq", required_argument, 0, 'w'},
 	{0, 0, 0, 0}
@@ -473,6 +481,10 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
 	  ss >> (p.roisize)[1];
 	  break;
 
+	case 'b':
+	  p.blanks = true;
+	  break;
+
 	case 'v':
 	  p.verbose = 1;
 	  break;
@@ -509,6 +521,10 @@ processArgsAnalyze (int argc, char **argv, struct params &p)
   p.det = (double) getINI_num (p.reportfile, "ANDOR", "phcdet");	// phase contrast detuning in MHz
   p.phc = (bool) getINI_num (p.reportfile, "ANDOR", "phc");	// phase contrast 
   p.phcsign = (double) getINI_num (p.reportfile, "ANDOR", "phcsign");	// prefactor in the calculation of the phase contrast signal
+
+  bool auxblanks = (bool) getINI_num (p.reportfile, "ANDOR", "blanks");	// taking blanks ?
+  p.blanks = p.blanks || auxblanks;	// if either the command line or the report says it, these are blanks
+
 //  p.det = -240.;
 //  p.phc = 0.;
 //  p.phcsign = 1.;

@@ -43,7 +43,7 @@ struct params
   bool keeproi;
 
   bool verbose, center, crop, plots, reanalyze, roi_user, roisize_user,
-    fitfermi1D, fermi2d, fermiazimuth, showfermi, show_B;
+    fitfermi1D, fermi2d, fermiazimuth, showfermi, show_B, blanks;
   double azimuth_maxr, azimuth_chop, azimuth_start;
 
   double lambda, hc, gamma, magnif, kbm, decay;
@@ -213,6 +213,7 @@ public:
   void FindMoments ();
   void MomentsCrop ();
   void MinimalCrop ();
+  void CropAll(  unsigned int roi[4] );
   void NAtoms ();
   double GetNPixels ()
   {
@@ -229,7 +230,7 @@ public:
   void GetAzimuthalAverageEllipse ();
   void FitAzimuthalFermi ();
   void MakePlots ();
-  void Fit1DFermi (bool radial_axial);
+  //void Fit1DFermi (bool radial_axial);
 
   struct params *p;
 
@@ -267,7 +268,8 @@ private:
   gsl_matrix *columndensity;
   gsl_matrix *residuals;
 
-  gsl_matrix *scattered_ph;
+  gsl_matrix *columndensity_scattered_ph;
+  gsl_matrix *missing_counts;
 
   gsl_vector *cutIdata;
   gsl_vector *cutJdata;
@@ -278,6 +280,9 @@ private:
 
   gsl_vector *sum_density_0;
   gsl_vector *sum_density_1;
+
+  gsl_vector *sum_missing_0;
+  gsl_vector *sum_missing_1;
 
   gsl_vector *sum_density_0_dist;
   gsl_vector *sum_density_1_dist;
@@ -543,10 +548,11 @@ void
 Fermions::ComputeColumnDensity ()
 {
   /********************************************
-  Three matrices are calculted here  
+  Four matrices are calculated here  
 
   columndensity = the number of atoms in each pixel
-  scattered_ph = the number of photons that were scattered per pixel
+  columndensity_scattered_ph = the number of atoms in each pixel, calculated from the number of photons that were scattered
+  missing_counts = counts in atoms picture minus counts in no-atoms picture
   probe = the number of photons that were incident on each pixel 
 
   ********************************************/
@@ -556,7 +562,8 @@ Fermions::ComputeColumnDensity ()
 
 
   columndensity = gsl_matrix_alloc (s1, s2);
-  scattered_ph = gsl_matrix_alloc (s1, s2);
+  columndensity_scattered_ph = gsl_matrix_alloc (s1, s2);
+  missing_counts = gsl_matrix_alloc(s1,s2);
   probe = gsl_matrix_alloc (s1, s2);
 
   /************ ABSORPTION IMAGING VARIABLES ************/
@@ -752,8 +759,9 @@ Fermions::ComputeColumnDensity ()
 	  if (cd > maxCD)
 	    maxCD = cd;
 
-	  gsl_matrix_set (scattered_ph, i, j, nsp);
+	  gsl_matrix_set (columndensity_scattered_ph, i, j, nsp);
 	  gsl_matrix_set (columndensity, i, j, cd);
+          gsl_matrix_set (missing_counts, i, j, c1-c0); 
 	  gsl_matrix_set (probe, i, j, c0);
 	}
     }
@@ -832,32 +840,36 @@ void
 Fermions::SaveColumnDensity ()
 {
   /********************************************
-  Three matrices are saved here  
+  Four matrices are saved here 
 
-  columndensity = the number of atoms in each pixel
-  scattered_ph = the number of photons that were scattered per pixel
-  probe = the number of photons that were incident on each pixel 
+  ... The same four that are created inside Fermions::ComputeColumnDensity() 
 
   ********************************************/
   char base[MAXPATHLEN];
   getcwd (base, MAXPATHLEN);
 
-  string column_path = makepath (base, p->shotnum, "_column.TIFF");
-  string scatt_path = makepath (base, p->shotnum, "_scatt.TIFF");
-  string probe_path = makepath (base, p->shotnum, "_probe.TIFF");
+  string column_path  = makepath (base, p->shotnum, "_column.TIFF");
+  string scatt_path   = makepath (base, p->shotnum, "_column_scatt.TIFF");
+  string missing_path = makepath (base, p->shotnum, "_missing_counts.TIFF");  
+  string probe_path   = makepath (base, p->shotnum, "_probe.TIFF");
 
   string column_ascii_path = makepath (base, p->shotnum, "_column.ascii");
-  string scatt_ascii_path = makepath (base, p->shotnum, "_scatt.ascii");
+  string scatt_ascii_path = makepath (base, p->shotnum, "_column_scatt.ascii");
+  string missing_ascii_path = makepath (base, p->shotnum, "_missing_counts.ascii");  
   string probe_ascii_path = makepath (base, p->shotnum, "_probe.ascii");
 
   toTiffImage (columndensity, column_path);
   save_gsl_matrix_ASCII (columndensity, column_ascii_path);
 
-  toTiffImage (scattered_ph, scatt_path);
-  save_gsl_matrix_ASCII (scattered_ph, scatt_ascii_path);
+  toTiffImage (columndensity_scattered_ph, scatt_path);
+  save_gsl_matrix_ASCII (columndensity_scattered_ph, scatt_ascii_path);
 
   toTiffImage (probe, probe_path);
   save_gsl_matrix_ASCII (probe, probe_ascii_path);
+
+  toTiffImage (missing_counts, missing_path);
+  save_gsl_matrix_ASCII (missing_counts, missing_ascii_path);
+
   return;
 }
 
@@ -942,7 +954,7 @@ Fermions::Fit1DGauss (bool col_row)
   //FWHM = 1.66 * (1/e) 
 
   double gausfit1d[4] = { center, w1e, peak, 0.1 };
-  fit1dgaus (profile, gausfit1d);
+  if ( ! p->blanks) fit1dgaus (profile, gausfit1d);
 
   gausfit1d[1] = fabs (gausfit1d[1]);
 
@@ -1043,7 +1055,7 @@ Fermions::Fit2DGauss ()
   if (VERBOSE)
     cout << endl << "------------ Fitting with 2D Gaussian ------------" <<
       endl;
-  fit2dgaus_err (columndensity, gaus2dfit, gaus2dfit_err);
+  if ( ! p->blanks)  fit2dgaus_err (columndensity, gaus2dfit, gaus2dfit_err);
   //Override for debugging
   /* gaus2dfit[0] = 278.8;
      gaus2dfit[1] = 79.5;
@@ -1144,7 +1156,7 @@ Fermions::FitScatt2DGauss ()
   if (VERBOSE)
     cout << endl << "------------ Fitting with 2D Gaussian ------------" <<
       endl;
-  fit2dgaus (scattered_ph, scatt2dfit);
+  if ( !p->blanks) fit2dgaus (columndensity_scattered_ph, scatt2dfit);
   //Override for debugging
   /* gaus2dfit[0] = 278.8;
      gaus2dfit[1] = 79.5;
@@ -1194,7 +1206,7 @@ Fermions::FitProbe2DGauss ()
   if (VERBOSE)
     cout << endl << "------------ Fitting with 2D Gaussian ------------" <<
       endl;
-  fit2dgaus_no_offset (probe, probe2dfit);
+  if ( !p->blanks) fit2dgaus_no_offset (probe, probe2dfit);
   //Override for debugging
   /* gaus2dfit[0] = 278.8;
      gaus2dfit[1] = 79.5;
@@ -1391,11 +1403,9 @@ void
 Fermions::MomentsCrop ()
 {
   /********************************************
-  Three matrices are cropped here  
+  Four matrices are cropped here  
 
-  columndensity = the number of atoms in each pixel
-  scattered_ph = the number of photons that were scattered per pixel
-  probe = the number of photons that were incident on each pixel 
+  ... The same four that are created inside Fermions::ComputeColumnDensity() 
 
   ********************************************/
   if (VERBOSE)
@@ -1437,15 +1447,16 @@ Fermions::MomentsCrop ()
       abs_ci += roi[0];
       abs_cj += roi[1];
 
-  gsl_matrix *cropped_columndensity = cropImage_ROI (roi, columndensity);
-  gsl_matrix *cropped_scattered_ph = cropImage_ROI (roi, scattered_ph);
+  CropAll(roi); 
+/*  gsl_matrix *cropped_columndensity = cropImage_ROI (roi, columndensity);
+  gsl_matrix *cropped_columndensity_scattered_ph = cropImage_ROI (roi, columndensity_scattered_ph);
   gsl_matrix *cropped_probe = cropImage_ROI (roi, probe);
   gsl_matrix_free (columndensity);
-  gsl_matrix_free (scattered_ph);
+  gsl_matrix_free (columndensity_scattered_ph);
   gsl_matrix_free (probe);
   columndensity = cropped_columndensity;
-  scattered_ph = cropped_scattered_ph;
-  probe = cropped_probe;
+  columndensity_scattered_ph = cropped_columndensity_scattered_ph;
+  probe = cropped_probe; */
 
   if (VERBOSE )
    { printf("\n    New matrix dimensions = %d, %d\n\n", (unsigned int) columndensity->size1, (unsigned int) columndensity->size2);}
@@ -1454,16 +1465,34 @@ Fermions::MomentsCrop ()
 }
 
 
+void Fermions::CropAll(  unsigned int roi[4] )
+{
+  gsl_matrix *cropped_columndensity = cropImage_ROI (roi, columndensity);
+  gsl_matrix *cropped_columndensity_scattered_ph = cropImage_ROI (roi, columndensity_scattered_ph);
+  gsl_matrix *cropped_probe = cropImage_ROI (roi, probe);
+  gsl_matrix *cropped_missing_counts = cropImage_ROI ( roi, missing_counts);
+
+  gsl_matrix_free (columndensity);
+  gsl_matrix_free (columndensity_scattered_ph);
+  gsl_matrix_free (probe);
+  gsl_matrix_free (missing_counts);
+
+  columndensity = cropped_columndensity;
+  columndensity_scattered_ph = cropped_columndensity_scattered_ph;
+  probe = cropped_probe;
+  missing_counts = cropped_missing_counts; 
+
+  return; 
+}
+
 
 void
 Fermions::MinimalCrop ()
 {
   /********************************************
-  Three matrices are cropped here  
-
-  columndensity = the number of atoms in each pixel
-  scattered_ph = the number of photons that were scattered per pixel
-  probe = the number of photons that were incident on each pixel 
+  Three matrices are cropped here 
+ 
+  ... The same four that are created inside Fermions::ComputeColumnDensity() 
 
   ********************************************/
   if (VERBOSE)
@@ -1508,15 +1537,16 @@ Fermions::MinimalCrop ()
       abs_ci += roi[0];
       abs_cj += roi[1];
 
-  gsl_matrix *cropped_columndensity = cropImage_ROI (roi, columndensity);
-  gsl_matrix *cropped_scattered_ph = cropImage_ROI (roi, scattered_ph);
+  CropAll(roi); 
+/*  gsl_matrix *cropped_columndensity = cropImage_ROI (roi, columndensity);
+  gsl_matrix *cropped_columndensity_scattered_ph = cropImage_ROI (roi, columndensity_scattered_ph);
   gsl_matrix *cropped_probe = cropImage_ROI (roi, probe);
   gsl_matrix_free (columndensity);
-  gsl_matrix_free (scattered_ph);
+  gsl_matrix_free (columndensity_scattered_ph);
   gsl_matrix_free (probe);
   columndensity = cropped_columndensity;
-  scattered_ph = cropped_scattered_ph;
-  probe = cropped_probe;
+  columndensity_scattered_ph = cropped_columndensity_scattered_ph;
+  probe = cropped_probe; */ 
 
   if (VERBOSE)
    { printf("\n    New matrix dimensions = %d, %d\n\n", (unsigned int) columndensity->size1, (unsigned int) columndensity->size2);}
@@ -1547,7 +1577,7 @@ Fermions::Fit2DFermi ()
   fermi2dfit[4] = 265.0;
   fermi2dfit[5] = 297.4;
   fermi2dfit[7] = 1.38; */
-  fit2dfermi_neldermead (columndensity, fermi2dfit);
+  if ( !p->blanks) fit2dfermi_neldermead (columndensity, fermi2dfit);
   if (VERBOSE)
     cout << endl;
 
@@ -1898,7 +1928,7 @@ Fermions::FitAzimuthalFermi ()
   fermi_azimuth_fit[4] = 0.1;
 
   gsl_vector *azimuthal_[2] = { azimuthal_r, azimuthal_dat };
-  fit1dfermi_azimuthal_neldermead (azimuthal_, fermi_azimuth_fit);
+  if ( ! p->blanks) fit1dfermi_azimuthal_neldermead (azimuthal_, fermi_azimuth_fit);
 
   fermi_azimuth_fit[2] = fabs (fermi_azimuth_fit[2]);
   r_az = fermi_azimuth_fit[2];
@@ -2116,7 +2146,7 @@ Fermions::MakePlots ()
   /**************** SAVE ARRAYS TO FILE ***************/
   if (VERBOSE) printf("\n---> Saving all arrays to dat file\n");
 
-  gsl_vector *output[22] = { 
+  gsl_vector *output[24] = { 
     azimuthal_all_r,             //  1
     azimuthal_all_dat,           //  2
     azimuthal_r,                 //  3
@@ -2138,10 +2168,12 @@ Fermions::MakePlots ()
     sum_density_0_fit_gaus,      // 19
     sum_density_1_fit_gaus,      // 20
     sum_density_0_fit_fermi,     // 21
-    sum_density_1_fit_fermi      // 22
+    sum_density_1_fit_fermi,     // 22
+    sum_missing_0,               // 23
+    sum_missing_1                // 24
   };
 
-  to_dat_file (output, 22, p->shotnum, "plots.dat");
+  to_dat_file (output, 24, p->shotnum, "plots.dat");
 
 
   /******************** PRODUCE 1D PLOTS ***************/
@@ -2201,6 +2233,28 @@ Fermions::MakePlots ()
   if (p->plots)
     std::system ("gnuplot -persist temp.gpl");
   remove ("temp.gpl");
+
+
+  /**************** PRODUCE 1D MISSING COUNTS PLOTS ************/
+  gpl_path = makepath(base, p->shotnum, "_missing_counts_1d.gpl");
+  gpl_sys = "gnuplot ";
+  gpl_sys += gpl_path; 
+
+  std::stringstream ss001 ( std::stringstream::in | std::stringstream::out); 
+  ss001 << "set terminal png enhanced medium" << endl;
+  ss001 << "set output \"" << p->shotnum << "_missing_counts1d.png\"" << endl;
+  ss001 << "f = \"" << p->shotnum << "_plots.dat\"" << endl; 
+  ss001 << "plot \\" << endl;
+  ss001 << "f u 0:23 title 'missing counts 1d sum_0' ,\\" << endl; 
+  ss001 << "f u 0:24 title 'missing counts 1d sum_1'" << endl; 
+  
+  //--- PNG plot 
+  gpl.open (gpl_path.c_str ());
+  gpl << ss001.str ();
+  gpl.close ();
+ 
+  if (VERBOSE) printf("\n---> Running script for 1D MISSING COUNTS .png plot:\n\t%s\n", gpl_sys.c_str());
+  std::system (gpl_sys.c_str());
 
   /**************** PRODUCE AZIMUTHAL PLOTS ************/
 
@@ -2306,21 +2360,32 @@ Fermions::ComputeIntegrated1DDensity ()
   sum_density_0 = gsl_vector_alloc (s1);
   sum_density_1 = gsl_vector_alloc (s2);
 
+  sum_missing_0 = gsl_vector_alloc (s1);
+  sum_missing_1 = gsl_vector_alloc (s2);
+
   gsl_vector_set_all (sum_density_0, 0.0);
   gsl_vector_set_all (sum_density_1, 0.0);
+  gsl_vector_set_all (sum_missing_0, 0.0);
+  gsl_vector_set_all (sum_missing_1, 0.0);
 
-  double cd_ij = 0.0;
+  double cd_ij = 0.0, mi_ij;
 
   for (unsigned int i = 0; i < s1; i++)
     {
       for (unsigned int j = 0; j < s2; j++)
 	{
 	  cd_ij = gsl_matrix_get (columndensity, i, j);
+	  mi_ij = gsl_matrix_get (missing_counts, i, j);
 
 	  gsl_vector_set (sum_density_0, i,
 			  gsl_vector_get (sum_density_0, i) + cd_ij);
 	  gsl_vector_set (sum_density_1, j,
 			  gsl_vector_get (sum_density_1, j) + cd_ij);
+
+	  gsl_vector_set (sum_missing_0, i,
+			  gsl_vector_get (sum_missing_0, i) + mi_ij);
+	  gsl_vector_set (sum_missing_1, j,
+			  gsl_vector_get (sum_missing_1, j) + mi_ij);
 	}
     }
 
@@ -2337,13 +2402,13 @@ Fermions::ComputeIntegrated1DDensity ()
   fit1d_gaus_0[1] = wi_1e;
   fit1d_gaus_0[2] = gsl_vector_max (sum_density_0);
   fit1d_gaus_0[3] = 0.1;
-  fit1dgaus (sum_density_0, fit1d_gaus_0);
+  if ( ! p->blanks) fit1dgaus (sum_density_0, fit1d_gaus_0);
 
   fit1d_gaus_1[0] = cj_;
   fit1d_gaus_1[1] = wj_1e;
   fit1d_gaus_1[2] = gsl_vector_max (sum_density_1);
   fit1d_gaus_1[3] = 0.1;
-  fit1dgaus (sum_density_1, fit1d_gaus_1);
+  if ( ! p->blanks) fit1dgaus (sum_density_1, fit1d_gaus_1);
 
   if (VERBOSE)
     cout << endl <<
@@ -2357,7 +2422,7 @@ Fermions::ComputeIntegrated1DDensity ()
   fit1d_fermi_0[3] = ci_;
   fit1d_fermi_0[4] = fit1d_gaus_0[3];
 
-  if (p->fitfermi1D)
+  if (p->fitfermi1D && !p->blanks )
   fit1dfermi_neldermead (sum_density_0, fit1d_fermi_0);
 
   if (VERBOSE) printf("\n---> Finished _0 axis\n\n");
@@ -2369,7 +2434,7 @@ Fermions::ComputeIntegrated1DDensity ()
   fit1d_fermi_1[3] = cj_;
   fit1d_fermi_1[4] = fit1d_gaus_1[3];
 
-  if (p->fitfermi1D)
+  if (p->fitfermi1D && !p->blanks)
   fit1dfermi_neldermead (sum_density_1, fit1d_fermi_1);
 
   if (VERBOSE && p->fitfermi1D)

@@ -105,8 +105,8 @@ After CCFits is configured, then proceed to type
 
 	% make
 
-The header files will be located in $(APP3-CPP)/CCfits/ and the shared library
-wiLl be in $(APP3-CPP)/CCfits/.libs/libCCfits.so
+The header files will be located in $(APP3-CPP)/../cpptools/CCfits/ and the
+shared library wiLl be in $(APP3-CPP)/../cpptools/CCfits/.libs/libCCfits.so
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%% RUN-TIME LOADING OF OPEN-SOURCE LIBRARIES %%%%%%%%%%%%%%%%%%%
