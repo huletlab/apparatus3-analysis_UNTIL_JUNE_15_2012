@@ -1,0 +1,661 @@
+In file included from /home/pd3/cpptools/CCfits/CCfits:5,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/CCfits.h:13:20: error: fitsio.h: No such file or directory
+/home/pd3/cpptools/CCfits/CCfits.h:23:21: error: longnam.h: No such file or directory
+In file included from /home/pd3/cpptools/CCfits/CCfits:5,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/CCfits.h:42: error: ‘READONLY’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:42: error: ‘READWRITE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TBIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TBYTE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TLOGICAL’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TSTRING’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TUSHORT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TSHORT’ was not declared in this scope
+In file included from /home/pd3/cpptools/CCfits/CCfits:5,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TUINT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TINT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TULONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TLONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TFLOAT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TDOUBLE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TCOMPLEX’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TDBLCOMPLEX’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TBIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TBYTE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TUSHORT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TSHORT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TUINT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TINT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TULONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TLONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TFLOAT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TDOUBLE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TCOMPLEX’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:79: error: ‘TDBLCOMPLEX’ was not declared in this scope
+In file included from /home/pd3/cpptools/CCfits/CCfits:5,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/CCfits.h:87: error: ‘BYTE_IMG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:88: error: ‘SHORT_IMG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:89: error: ‘LONG_IMG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:90: error: ‘FLOAT_IMG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:91: error: ‘DOUBLE_IMG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:92: error: ‘USHORT_IMG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/CCfits.h:93: error: ‘ULONG_IMG’ was not declared in this scope
+In file included from /home/pd3/cpptools/CCfits/HDU.h:19,
+                 from /home/pd3/cpptools/CCfits/ExtHDU.h:15,
+                 from /home/pd3/cpptools/CCfits/FITS.h:19,
+                 from /home/pd3/cpptools/CCfits/CCfits:7,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/Keyword.h:222: error: ISO C++ forbids declaration of ‘fitsfile’ with no type
+/home/pd3/cpptools/CCfits/Keyword.h:222: error: expected ‘;’ before ‘*’ token
+In file included from /home/pd3/cpptools/CCfits/KeyData.h:22,
+                 from /home/pd3/cpptools/CCfits/KeywordCreator.h:13,
+                 from /home/pd3/cpptools/CCfits/NewKeyword.h:13,
+                 from /home/pd3/cpptools/CCfits/HDU.h:21,
+                 from /home/pd3/cpptools/CCfits/ExtHDU.h:15,
+                 from /home/pd3/cpptools/CCfits/FITS.h:19,
+                 from /home/pd3/cpptools/CCfits/CCfits:7,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/FITSUtil.h:318: error: ‘LONGLONG’ does not name a type
+/home/pd3/cpptools/CCfits/FITSUtil.h: In member function ‘CCfits::ValueType CCfits::FITSUtil::MatchType<T>::operator()()’:
+/home/pd3/cpptools/CCfits/FITSUtil.h:743: error: ‘ll1’ was not declared in this scope
+/home/pd3/cpptools/CCfits/FITSUtil.h: In member function ‘T CCfits::FITSUtil::FitsNullValue<T>::operator()() [with T = float]’:
+/home/pd3/cpptools/CCfits/FITSUtil.h:931: error: ‘FLOATNULLVALUE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/FITSUtil.h: In member function ‘T CCfits::FITSUtil::FitsNullValue<T>::operator()() [with T = double]’:
+/home/pd3/cpptools/CCfits/FITSUtil.h:937: error: ‘DOUBLENULLVALUE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/FITSUtil.h: In member function ‘T CCfits::FITSUtil::FitsNullValue<T>::operator()() [with T = std::complex<float>]’:
+/home/pd3/cpptools/CCfits/FITSUtil.h:943: error: ‘FLOATNULLVALUE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/FITSUtil.h: In member function ‘T CCfits::FITSUtil::FitsNullValue<T>::operator()() [with T = std::complex<double>]’:
+/home/pd3/cpptools/CCfits/FITSUtil.h:949: error: ‘DOUBLENULLVALUE’ was not declared in this scope
+In file included from /home/pd3/cpptools/CCfits/KeywordCreator.h:13,
+                 from /home/pd3/cpptools/CCfits/NewKeyword.h:13,
+                 from /home/pd3/cpptools/CCfits/HDU.h:21,
+                 from /home/pd3/cpptools/CCfits/ExtHDU.h:15,
+                 from /home/pd3/cpptools/CCfits/FITS.h:19,
+                 from /home/pd3/cpptools/CCfits/CCfits:7,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/KeyData.h: In member function ‘virtual void CCfits::KeyData<T>::write()’:
+/home/pd3/cpptools/CCfits/KeyData.h:325: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/KeyData.h:325: note: (if you use ‘-fpermissive’, G++ will accept your code, but allowing the use of an undeclared name is deprecated)
+In file included from /home/pd3/cpptools/CCfits/ExtHDU.h:15,
+                 from /home/pd3/cpptools/CCfits/FITS.h:19,
+                 from /home/pd3/cpptools/CCfits/CCfits:7,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/HDU.h: At global scope:
+/home/pd3/cpptools/CCfits/HDU.h:601: error: ISO C++ forbids declaration of ‘fitsfile’ with no type
+/home/pd3/cpptools/CCfits/HDU.h:601: error: expected ‘;’ before ‘*’ token
+In file included from /home/pd3/cpptools/CCfits/FITS.h:19,
+                 from /home/pd3/cpptools/CCfits/CCfits:7,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ExtHDU.h:447: error: ISO C++ forbids declaration of ‘fitsfile’ with no type
+/home/pd3/cpptools/CCfits/ExtHDU.h:447: error: expected ‘,’ or ‘...’ before ‘*’ token
+In file included from /home/pd3/cpptools/CCfits/CCfits:7,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/FITS.h:773: error: ISO C++ forbids declaration of ‘fitsfile’ with no type
+/home/pd3/cpptools/CCfits/FITS.h:773: error: expected ‘;’ before ‘*’ token
+In file included from /home/pd3/cpptools/CCfits/ColumnVectorData.h:21,
+                 from /home/pd3/cpptools/CCfits/CCfits:10,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/Column.h:1192: error: ISO C++ forbids declaration of ‘fitsfile’ with no type
+/home/pd3/cpptools/CCfits/Column.h:1192: error: expected ‘;’ before ‘*’ token
+/home/pd3/cpptools/CCfits/Column.h:1270: error: ‘LONGLONG’ does not name a type
+/home/pd3/cpptools/CCfits/Column.h:1271: error: ‘LONGLONG’ does not name a type
+/home/pd3/cpptools/CCfits/Column.h: In member function ‘void CCfits::Column::scale(double)’:
+/home/pd3/cpptools/CCfits/Column.h:1382: error: ‘fitsPointer’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Column.h:1382: error: ‘fits_set_tscale’ was not declared in this scope
+In file included from /home/pd3/cpptools/CCfits/CCfits:10,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ColumnVectorData.h: In member function ‘virtual void CCfits::ColumnVectorData<T>::setDimen()’:
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:334: error: ‘FLEN_VALUE’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:346: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnVectorData.h: In member function ‘virtual void CCfits::ColumnVectorData<T>::readVariableRow(size_t, T*)’:
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:592: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnVectorData.h: In member function ‘void CCfits::ColumnVectorData<T>::readColumnData(long int, long int, long int, T*)’:
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:608: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnVectorData.h: In member function ‘void CCfits::ColumnVectorData<T>::writeFixedArray(T*, long int, long int, long int, T*)’:
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:813: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:818: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnVectorData.h: In member function ‘void CCfits::ColumnVectorData<T>::doWrite(T*, long int, long int, long int, T*)’:
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:898: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnVectorData.h:903: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+In file included from /home/pd3/cpptools/CCfits/CCfits:11,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ColumnData.h: In member function ‘void CCfits::ColumnData<T>::readColumnData(long int, long int, T*)’:
+/home/pd3/cpptools/CCfits/ColumnData.h:233: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnData.h: In member function ‘void CCfits::ColumnData<T>::writeData(T*, long int, long int, T*)’:
+/home/pd3/cpptools/CCfits/ColumnData.h:311: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnData.h:316: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnData.h:327: error: ‘NO_NULL’ was not declared in this scope
+In file included from /home/pd3/cpptools/CCfits/CCfits:12,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘void CCfits::Column::read(std::vector<T, std::allocator<_CharT> >&, long int, long int, S*)’:
+/home/pd3/cpptools/CCfits/ColumnT.h:128: error: ‘LONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:128: error: expected ‘;’ before ‘nullVal’
+/home/pd3/cpptools/CCfits/ColumnT.h:129: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:129: error: expected type-specifier before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:129: error: expected ‘>’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:129: error: expected ‘(’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:129: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:130: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:130: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:131: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:131: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:131: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:131: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:131: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:131: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:131: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:132: error: request for member ‘readColumnData’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h:132: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:133: error: request for member ‘data’ in ‘col’, which is of non-class type ‘int’
+In file included from /home/pd3/cpptools/CCfits/CCfits:12,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘void CCfits::Column::read(std::valarray<_Tp>&, long int, long int, S*)’:
+/home/pd3/cpptools/CCfits/ColumnT.h:281: error: ‘LONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:281: error: expected ‘;’ before ‘nullVal’
+/home/pd3/cpptools/CCfits/ColumnT.h:282: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:282: error: expected type-specifier before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:282: error: expected ‘>’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:282: error: expected ‘(’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:282: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:283: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:283: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:284: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:284: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:284: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:284: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:284: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:284: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:284: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:285: error: request for member ‘readColumnData’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h:285: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:286: error: request for member ‘data’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘void CCfits::Column::read(std::valarray<_Tp>&, long int, S*)’:
+/home/pd3/cpptools/CCfits/ColumnT.h:450: error: ‘LONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:450: error: expected ‘;’ before ‘nullVal’
+/home/pd3/cpptools/CCfits/ColumnT.h:451: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:451: error: expected type-specifier before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:451: error: expected ‘>’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:451: error: expected ‘(’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:451: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:452: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:452: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:453: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:453: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:453: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:453: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:453: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:453: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:453: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:454: error: request for member ‘readRow’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h:454: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:455: error: request for member ‘data’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘void CCfits::Column::readArrays(std::vector<std::valarray<_Tp>, std::allocator<std::valarray<_Tp> > >&, long int, long int, S*)’:
+/home/pd3/cpptools/CCfits/ColumnT.h:620: error: ‘LONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:620: error: expected ‘;’ before ‘nullVal’
+/home/pd3/cpptools/CCfits/ColumnT.h:621: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:621: error: expected type-specifier before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:621: error: expected ‘>’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:621: error: expected ‘(’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:621: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:622: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:622: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:623: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:623: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:623: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:623: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:623: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:623: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:623: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:626: error: request for member ‘readRow’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h:626: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:627: error: request for member ‘data’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘void CCfits::Column::write(const std::vector<T, std::allocator<_CharT> >&, long int, S*)’:
+/home/pd3/cpptools/CCfits/ColumnT.h:829: error: ‘LONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:829: error: expected ‘;’ before ‘nullVal’
+/home/pd3/cpptools/CCfits/ColumnT.h:830: error: ‘pNullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:833: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:833: error: expected type-specifier before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:833: error: expected ‘>’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:833: error: expected ‘(’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:833: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:836: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:836: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:837: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:837: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:837: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:837: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:837: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:837: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:837: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:838: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:838: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:838: error: template argument 2 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:838: error: invalid type in declaration before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:840: error: request for member ‘writeData’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘void CCfits::Column::writeArrays(const std::vector<std::valarray<_Tp>, std::allocator<std::valarray<_Tp> > >&, long int, S*)’:
+/home/pd3/cpptools/CCfits/ColumnT.h:1212: error: ‘LONGLONG’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:1212: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:1213: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:1213: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:1213: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:1213: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:1213: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:1213: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:1213: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:1214: error: ‘LONGLONG’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ColumnT.h:1214: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:1214: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:1214: error: template argument 2 is invalid
+/home/pd3/cpptools/CCfits/ColumnT.h:1214: error: invalid type in declaration before ‘(’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:1215: error: expected ‘;’ before ‘nullVal’
+/home/pd3/cpptools/CCfits/ColumnT.h:1216: error: ‘pNullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:1219: error: ‘nullVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:1219: error: expected type-specifier before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:1219: error: expected ‘>’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:1219: error: expected ‘(’ before ‘LONGLONG’
+/home/pd3/cpptools/CCfits/ColumnT.h:1219: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ColumnT.h:1224: error: invalid types ‘int[size_t]’ for array subscript
+/home/pd3/cpptools/CCfits/ColumnT.h:1226: error: request for member ‘writeData’ in ‘col’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘void CCfits::Column::addNullValue(T)’:
+/home/pd3/cpptools/CCfits/ColumnT.h:1352: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnT.h:1358: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ColumnT.h: In member function ‘bool CCfits::Column::getNullValue(T*) const’:
+/home/pd3/cpptools/CCfits/ColumnT.h:1385: error: ‘class CCfits::Table’ has no member named ‘fitsPointer’
+/home/pd3/cpptools/CCfits/ColumnT.h:1387: error: ‘KEY_NO_EXIST’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ColumnT.h:1387: error: ‘VALUE_UNDEFINED’ was not declared in this scope
+In file included from /home/pd3/cpptools/CCfits/ImageExt.h:17,
+                 from /home/pd3/cpptools/CCfits/ExtHDUT.h:11,
+                 from /home/pd3/cpptools/CCfits/CCfits:13,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/Image.h: At global scope:
+/home/pd3/cpptools/CCfits/Image.h:45: error: expected ‘;’ before ‘(’ token
+In file included from /home/pd3/cpptools/CCfits/ImageExt.h:17,
+                 from /home/pd3/cpptools/CCfits/ExtHDUT.h:11,
+                 from /home/pd3/cpptools/CCfits/CCfits:13,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/Image.h:49: error: expected ‘;’ before ‘(’ token
+/home/pd3/cpptools/CCfits/Image.h:53: error: ‘fitsfile’ has not been declared
+/home/pd3/cpptools/CCfits/Image.h:57: error: ‘fitsfile’ has not been declared
+/home/pd3/cpptools/CCfits/Image.h:58: error: ‘fitsfile’ has not been declared
+In file included from /home/pd3/cpptools/CCfits/ImageExt.h:17,
+                 from /home/pd3/cpptools/CCfits/ExtHDUT.h:11,
+                 from /home/pd3/cpptools/CCfits/CCfits:13,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/Image.h:163: error: ‘const std::valarray<_Tp>& CCfits::Image<T>::readImage’ is not a static member of ‘class CCfits::Image<T>’
+/home/pd3/cpptools/CCfits/Image.h:163: error: template definition of non-template ‘const std::valarray<_Tp>& CCfits::Image<T>::readImage’
+/home/pd3/cpptools/CCfits/Image.h:163: error: ‘fitsfile’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:163: error: ‘fPtr’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:163: error: expected primary-expression before ‘long’
+/home/pd3/cpptools/CCfits/Image.h:163: error: expected primary-expression before ‘long’
+/home/pd3/cpptools/CCfits/Image.h:163: error: expected primary-expression before ‘*’ token
+/home/pd3/cpptools/CCfits/Image.h:163: error: ‘nullValue’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:163: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:163: error: expected primary-expression before ‘bool’
+/home/pd3/cpptools/CCfits/Image.h:205: error: ‘const std::valarray<_Tp>& CCfits::Image<T>::readImage’ is not a static member of ‘class CCfits::Image<T>’
+/home/pd3/cpptools/CCfits/Image.h:205: error: template definition of non-template ‘const std::valarray<_Tp>& CCfits::Image<T>::readImage’
+/home/pd3/cpptools/CCfits/Image.h:205: error: ‘fitsfile’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:205: error: ‘fPtr’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:205: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:205: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:205: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:205: error: expected primary-expression before ‘*’ token
+/home/pd3/cpptools/CCfits/Image.h:205: error: ‘nullValue’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:205: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:205: error: expected primary-expression before ‘bool’
+/home/pd3/cpptools/CCfits/Image.h:245: error: variable or field ‘writeImage’ declared void
+/home/pd3/cpptools/CCfits/Image.h:245: error: ‘fitsfile’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:245: error: ‘fPtr’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:245: error: expected primary-expression before ‘long’
+/home/pd3/cpptools/CCfits/Image.h:245: error: expected primary-expression before ‘long’
+/home/pd3/cpptools/CCfits/Image.h:245: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:245: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:245: error: expected primary-expression before ‘*’ token
+/home/pd3/cpptools/CCfits/Image.h:245: error: ‘nullValue’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:275: error: variable or field ‘writeImage’ declared void
+/home/pd3/cpptools/CCfits/Image.h:275: error: ‘fitsfile’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:275: error: ‘fPtr’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:275: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:275: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:275: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:275: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:275: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:421: error: variable or field ‘writeImage’ declared void
+/home/pd3/cpptools/CCfits/Image.h:421: error: ‘fitsfile’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:421: error: ‘fPtr’ was not declared in this scope
+/home/pd3/cpptools/CCfits/Image.h:421: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:421: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:421: error: expected primary-expression before ‘const’
+/home/pd3/cpptools/CCfits/Image.h:421: error: expected primary-expression before ‘const’
+In file included from /home/pd3/cpptools/CCfits/ExtHDUT.h:11,
+                 from /home/pd3/cpptools/CCfits/CCfits:13,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ImageExt.h: In constructor ‘CCfits::ImageExt<T>::ImageExt(CCfits::FITSBase*, const CCfits::String&, int, int, const std::vector<long int, std::allocator<long int> >&, int)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:174: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h:182: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h:187: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h: In member function ‘virtual void CCfits::ImageExt<T>::readData(bool, const std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:241: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h: In member function ‘virtual const std::valarray<_Tp>& CCfits::ImageExt<T>::readImage(long int, long int, T*)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:257: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h: In member function ‘virtual const std::valarray<_Tp>& CCfits::ImageExt<T>::readImage(const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, T*)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:264: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h: In member function ‘virtual void CCfits::ImageExt<T>::writeImage(long int, long int, const std::valarray<_Tp>&, T*)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:271: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h: In member function ‘virtual void CCfits::ImageExt<T>::writeImage(const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::valarray<_Tp>&)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:278: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h: In member function ‘virtual void CCfits::ImageExt<T>::zero(double)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:290: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h:292: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h: In member function ‘virtual void CCfits::ImageExt<T>::scale(double)’:
+/home/pd3/cpptools/CCfits/ImageExt.h:314: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/ImageExt.h:316: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+In file included from /home/pd3/cpptools/CCfits/CCfits:13,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ExtHDUT.h: In member function ‘void CCfits::ExtHDU::read(std::valarray<_Tp>&, long int, long int, S*)’:
+/home/pd3/cpptools/CCfits/ExtHDUT.h:84: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:85: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:85: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:85: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:85: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:85: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:85: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:86: error: ‘INT32BIT’ does not name a type
+/home/pd3/cpptools/CCfits/ExtHDUT.h:87: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:88: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:88: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:88: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:88: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:90: error: request for member ‘readImage’ in ‘extimage’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:90: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:94: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:94: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:95: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:95: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ExtHDUT.h:95: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:95: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:95: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:95: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:95: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:96: error: expected ‘;’ before ‘nulVal’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:97: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:97: error: expected type-specifier before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:97: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:97: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:97: error: expected ‘)’ before ‘;’ token
+In file included from /home/pd3/cpptools/CCfits/CCfits:13,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/ExtHDUT.h:99: error: request for member ‘readImage’ in ‘extimage’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:99: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h: In member function ‘void CCfits::ExtHDU::read(std::valarray<_Tp>&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, S*)’:
+/home/pd3/cpptools/CCfits/ExtHDUT.h:214: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:215: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:215: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:215: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:215: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:215: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:215: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:216: error: ‘INT32BIT’ does not name a type
+/home/pd3/cpptools/CCfits/ExtHDUT.h:218: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:218: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:218: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:218: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:218: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:220: error: request for member ‘readImage’ in ‘extimage’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:220: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:224: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:225: error: expected ‘;’ before ‘nulVal’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:226: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:226: error: expected type-specifier before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:226: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:226: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:226: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:228: error: request for member ‘readImage’ in ‘extimage’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:228: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h: In member function ‘void CCfits::ExtHDU::write(long int, long int, const std::valarray<_Tp>&, S*)’:
+/home/pd3/cpptools/CCfits/ExtHDUT.h:329: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:330: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:330: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:330: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:330: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:330: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:330: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:331: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:331: error: invalid type in declaration before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:334: error: expected initializer before ‘*’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:335: error: ‘INT32BIT’ does not name a type
+/home/pd3/cpptools/CCfits/ExtHDUT.h:338: error: ‘lNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:338: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:338: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:338: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:338: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:339: error: ‘plNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:341: error: request for member ‘writeImage’ in ‘imageExt’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:341: error: ‘plNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:345: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:345: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:346: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:346: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ExtHDUT.h:346: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:346: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:346: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:346: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:346: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:347: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ExtHDUT.h:347: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:347: error: invalid type in declaration before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:349: error: ‘plNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:350: error: expected ‘;’ before ‘lNull’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:353: error: ‘lNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:353: error: expected type-specifier before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:353: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:353: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:353: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:356: error: request for member ‘writeImage’ in ‘imageExt’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ExtHDUT.h: In member function ‘void CCfits::ExtHDU::write(const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::valarray<_Tp>&)’:
+/home/pd3/cpptools/CCfits/ExtHDUT.h:495: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:496: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:496: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:496: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:496: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:496: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:496: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:498: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:498: error: invalid type in declaration before ‘(’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:499: error: invalid types ‘int[size_t]’ for array subscript
+/home/pd3/cpptools/CCfits/ExtHDUT.h:500: error: request for member ‘writeImage’ in ‘extimage’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/ExtHDUT.h:504: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/ExtHDUT.h:504: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:505: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:505: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ExtHDUT.h:505: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:505: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:505: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:505: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:505: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:507: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/ExtHDUT.h:507: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/ExtHDUT.h:507: error: invalid type in declaration before ‘(’ token
+/home/pd3/cpptools/CCfits/ExtHDUT.h:508: error: invalid types ‘int[size_t]’ for array subscript
+/home/pd3/cpptools/CCfits/ExtHDUT.h:509: error: request for member ‘writeImage’ in ‘extimage’, which is of non-class type ‘int’
+In file included from /home/pd3/cpptools/CCfits/PHDUT.h:12,
+                 from /home/pd3/cpptools/CCfits/CCfits:18,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/PrimaryHDU.h: In member function ‘virtual const std::valarray<_Tp>& CCfits::PrimaryHDU<T>::readImage(long int, long int, T*)’:
+/home/pd3/cpptools/CCfits/PrimaryHDU.h:215: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/PrimaryHDU.h: In member function ‘virtual const std::valarray<_Tp>& CCfits::PrimaryHDU<T>::readImage(const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, T*)’:
+/home/pd3/cpptools/CCfits/PrimaryHDU.h:222: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/PrimaryHDU.h: In member function ‘virtual void CCfits::PrimaryHDU<T>::writeImage(long int, long int, const std::valarray<_Tp>&, T*)’:
+/home/pd3/cpptools/CCfits/PrimaryHDU.h:228: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+/home/pd3/cpptools/CCfits/PrimaryHDU.h: In member function ‘virtual void CCfits::PrimaryHDU<T>::writeImage(const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::valarray<_Tp>&)’:
+/home/pd3/cpptools/CCfits/PrimaryHDU.h:234: error: there are no arguments to ‘fitsPointer’ that depend on a template parameter, so a declaration of ‘fitsPointer’ must be available
+In file included from /home/pd3/cpptools/CCfits/CCfits:18,
+                 from utils.h:11,
+                 from testutils.cpp:2:
+/home/pd3/cpptools/CCfits/PHDUT.h: In member function ‘void CCfits::PHDU::read(std::valarray<_Tp>&, long int, long int, S*)’:
+/home/pd3/cpptools/CCfits/PHDUT.h:79: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:80: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:80: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:80: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:80: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:80: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:80: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:81: error: ‘INT32BIT’ does not name a type
+/home/pd3/cpptools/CCfits/PHDUT.h:82: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:83: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:83: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:83: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:83: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:85: error: request for member ‘readImage’ in ‘phdu’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/PHDUT.h:85: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:89: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:89: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:90: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:90: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/PHDUT.h:90: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:90: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:90: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:90: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:90: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:91: error: expected ‘;’ before ‘nulVal’
+/home/pd3/cpptools/CCfits/PHDUT.h:92: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:92: error: expected type-specifier before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:92: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:92: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:92: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:94: error: request for member ‘readImage’ in ‘phdu’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/PHDUT.h:94: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h: In member function ‘void CCfits::PHDU::read(std::valarray<_Tp>&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, S*)’:
+/home/pd3/cpptools/CCfits/PHDUT.h:209: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:210: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:210: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:210: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:210: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:210: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:210: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:211: error: ‘INT32BIT’ does not name a type
+/home/pd3/cpptools/CCfits/PHDUT.h:212: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:213: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:213: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:213: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:213: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:215: error: request for member ‘readImage’ in ‘phdu’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/PHDUT.h:215: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:219: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:219: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:220: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:220: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/PHDUT.h:220: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:220: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:220: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:220: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:220: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:221: error: expected ‘;’ before ‘nulVal’
+/home/pd3/cpptools/CCfits/PHDUT.h:222: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:222: error: expected type-specifier before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:222: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:222: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:222: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:224: error: request for member ‘readImage’ in ‘phdu’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/PHDUT.h:224: error: ‘nulVal’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h: In member function ‘void CCfits::PHDU::write(long int, long int, const std::valarray<_Tp>&, S*)’:
+/home/pd3/cpptools/CCfits/PHDUT.h:327: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:328: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:328: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:328: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:328: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:328: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:328: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:329: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:329: error: invalid type in declaration before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:332: error: expected initializer before ‘*’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:333: error: ‘INT32BIT’ does not name a type
+/home/pd3/cpptools/CCfits/PHDUT.h:336: error: ‘lNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:336: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:336: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:336: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:336: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:337: error: ‘plNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:339: error: request for member ‘writeImage’ in ‘phdu’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/PHDUT.h:339: error: ‘plNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:343: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:343: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:344: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:344: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/PHDUT.h:344: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:344: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:344: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:344: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:344: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:345: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/PHDUT.h:345: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:345: error: invalid type in declaration before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:348: error: ‘plNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:349: error: expected ‘;’ before ‘lNull’
+/home/pd3/cpptools/CCfits/PHDUT.h:352: error: ‘lNull’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:352: error: expected type-specifier before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:352: error: expected ‘>’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:352: error: expected ‘(’ before ‘INT32BIT’
+/home/pd3/cpptools/CCfits/PHDUT.h:352: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:355: error: request for member ‘writeImage’ in ‘phdu’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/PHDUT.h: In member function ‘void CCfits::PHDU::write(const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::vector<long int, std::allocator<long int> >&, const std::valarray<_Tp>&)’:
+/home/pd3/cpptools/CCfits/PHDUT.h:497: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:498: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:498: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:498: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:498: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:498: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:498: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:500: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:500: error: invalid type in declaration before ‘(’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:501: error: invalid types ‘int[size_t]’ for array subscript
+/home/pd3/cpptools/CCfits/PHDUT.h:502: error: request for member ‘writeImage’ in ‘phdu’, which is of non-class type ‘int’
+/home/pd3/cpptools/CCfits/PHDUT.h:507: error: ‘INT32BIT’ was not declared in this scope
+/home/pd3/cpptools/CCfits/PHDUT.h:507: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:508: error: invalid type in declaration before ‘=’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:508: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/PHDUT.h:508: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:508: error: expected ‘>’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:508: error: expected ‘(’ before ‘&’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:508: error: expected primary-expression before ‘>’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:508: error: expected ‘)’ before ‘;’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:510: error: ‘INT32BIT’ cannot appear in a constant-expression
+/home/pd3/cpptools/CCfits/PHDUT.h:510: error: template argument 1 is invalid
+/home/pd3/cpptools/CCfits/PHDUT.h:510: error: invalid type in declaration before ‘(’ token
+/home/pd3/cpptools/CCfits/PHDUT.h:511: error: invalid types ‘int[size_t]’ for array subscript
+/home/pd3/cpptools/CCfits/PHDUT.h:512: error: request for member ‘writeImage’ in ‘phdu’, which is of non-class type ‘int’
+make: *** [testutils.o] Error 1

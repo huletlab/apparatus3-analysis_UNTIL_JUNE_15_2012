@@ -1,7 +1,7 @@
 all: qini
 
-APP3_CPP_INC = /lab/software/apparatus3/cpp/
-CPP_TOOLS_INC = /lab/software/apparatus3/cpptools/
+APP3_CPP_INC = /home/pd3/apparatus3-analysis/
+CPP_TOOLS_INC = /home/pd3/cpptools/
 
 INC = -I${APP3_CPP_INC} -I${CPP_TOOLS_INC}
 

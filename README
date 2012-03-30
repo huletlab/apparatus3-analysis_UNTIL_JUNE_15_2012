@@ -11,6 +11,8 @@ These libraries must be installed in the following path:
 
 	$(APP3-CPP)/../cpptools
 
+*** NOTE:   $(APP3-CPP)/../ means the directory above $(APP3-CPP) ***
+
 The git repository for APP3-ANALYSIS provides the compressed source code for
 all the cpptools.  When building the code for the first time, the user should
 first build the cpptools. To do so create the directory called 
