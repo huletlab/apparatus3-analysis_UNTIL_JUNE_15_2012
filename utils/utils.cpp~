@@ -93,7 +93,7 @@ makeShotPaths (char *shot, string & shotnum, string & report,
   noatomsref += path;
   noatomsref += "/";
   noatomsref += shot_str;
-  noatomsref += "atomsref.fits";
+  noatomsref += "noatomsref.fits";
 
   return EXIT_SUCCESS;
 }
