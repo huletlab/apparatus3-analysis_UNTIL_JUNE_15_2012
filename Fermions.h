@@ -999,9 +999,10 @@ Fermions::FindMoments ()
   toTiffImage (masked, masked_path);
   save_gsl_matrix_ASCII (masked, masked_ascii_path);
 
-  //findpeak (columndensity, &ci, &cj, &peak);
+  unsigned int tempci, tempcj;
   //findcenter (smoothed, &ci, &cj, &peak);
   findmoments (masked, &ci, &cj, &peak, &wi1e, &wj1e);
+  findpeak (columndensity, &tempci, &tempcj, &peak);
 
   ci_ = (double) ci; 
   cj_ = (double) cj;
